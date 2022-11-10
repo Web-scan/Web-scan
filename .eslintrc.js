@@ -16,7 +16,7 @@ module.exports = {
     sourceType: "module",
     createDefaultProgram: true,
   },
-  plugins: ["react", "html", "prettier"],
+  plugins: ["react", "html", "prettier", "@emotion"],
   rules: {
     "spaced-comment": "off",
     "require-jsdoc": "off",
@@ -44,6 +44,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ["react"],
       },
     ],
+    "react/no-unknown-property": ["error", { ignore: ["css"] }],
   },
   settings: {
     react: {
