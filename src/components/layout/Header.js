@@ -1,14 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { css } from "@emotion/react";
 import PropTypes from "prop-types";
-
 import { GREY_50, GREY_100 } from "../../constants/color";
 
 export default function Header({ children }) {
   return (
     <div
-      css={css({
+      css={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -17,7 +15,7 @@ export default function Header({ children }) {
         height: "86px",
         backgroundColor: GREY_50,
         boxShadow: `0 0 6px ${GREY_100}`,
-      })}
+      }}
     >
       {children}
     </div>

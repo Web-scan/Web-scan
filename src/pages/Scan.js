@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useNavigate } from "react-router-dom";
 
-import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 import { TfiFiles } from "react-icons/tfi";
 
 import Header from "../components/layout/Header";
@@ -28,9 +27,7 @@ export default function Scan() {
         />
       </Header>
       <ContentBox>
-        <div css={css({ fontSize: "18px", color: GREY_100 })}>
-          {LANDING_MESSAGE}
-        </div>
+        <div css={{ fontSize: "18px", color: GREY_100 }}>{LANDING_MESSAGE}</div>
         <Button
           text={BUTTON.copy}
           width="80px"

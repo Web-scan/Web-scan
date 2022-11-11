@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 
 import { AiFillFolderOpen } from "react-icons/ai";
 import { CiSaveDown2 } from "react-icons/ci";
@@ -18,33 +17,28 @@ export default function EditFile() {
         <Logo />
       </Header>
       <ContentBox>
-        <div css={css(editorWrapper)}>
-          <div css={css([textStyle, { height: "40px" }])}>
+        <div css={editorWrapper}>
+          <div css={{ ...textStyle, height: "40px" }}>
             {CODE_AREA.AUTOCOMPLETE_COMPONENT_CODE}
           </div>
         </div>
         <div
-          css={css({
+          css={{
             ...editorWrapper,
             borderLeft: `1px solid ${GREY_50}`,
-          })}
+          }}
         >
           <div
-            css={css({
+            css={{
               display: "flex",
               justifyContent: "space-between",
               height: "40px",
-            })}
+            }}
           >
-            <div css={css(textStyle)}>{CODE_AREA.LOADED_FILE_CODE}</div>
+            <div css={textStyle}>{CODE_AREA.LOADED_FILE_CODE}</div>
             <div>
-              <AiFillFolderOpen
-                size="26
-                "
-                color={GREY_100}
-                css={css(iconStyle)}
-              />
-              <CiSaveDown2 size="26" color={GREY_100} css={css(iconStyle)} />
+              <AiFillFolderOpen size="26" color={GREY_100} css={iconStyle} />
+              <CiSaveDown2 size="26" color={GREY_100} css={iconStyle} />
             </div>
           </div>
         </div>
