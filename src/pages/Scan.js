@@ -10,7 +10,7 @@ import Button from "../components/Button";
 import Logo from "../components/Logo";
 
 import { LANDING_MESSAGE, BUTTON } from "../constants/ui";
-import { GREY_100 } from "../constants/color";
+import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
   const navigate = useNavigate();
@@ -22,18 +22,13 @@ export default function Scan() {
         <UrlInput />
         <TfiFiles
           size="42"
-          color={GREY_100}
+          color={GREY_150}
           onClick={() => navigate("/edit")}
         />
       </Header>
       <ContentBox>
-        <div css={{ fontSize: "18px", color: GREY_100 }}>{LANDING_MESSAGE}</div>
-        <Button
-          text={BUTTON.copy}
-          width="80px"
-          height="30px"
-          borderRadius="10px"
-        />
+        <div css={{ fontSize: "18px", color: GREY_150 }}>{LANDING_MESSAGE}</div>
+        <Button text={BUTTON.copy} handleClick={() => console.log("copy")} />
       </ContentBox>
     </>
   );

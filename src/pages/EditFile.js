@@ -1,16 +1,39 @@
 /** @jsxImportSource @emotion/react */
 
-import { AiFillFolderOpen } from "react-icons/ai";
-import { CiSaveDown2 } from "react-icons/ci";
+import { useCallback, useRef } from "react";
+import { useRecoilState } from "recoil";
 
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
-import Logo from "../components/Logo";
 
-import { GREY_50, GREY_100 } from "../constants/color";
+import Logo from "../components/Logo";
+import Editor from "../components/Editfile/Editor";
+import Button from "../components/Button";
+
+import convertedCodeState from "../recoil/convertedCode";
+import loadedFileCodeState from "../recoil/loadedFileCode";
+
+import { GREY_50, GREY_150 } from "../constants/color";
 import { CODE_AREA } from "../constants/ui";
 
 export default function EditFile() {
+  const [convertedCode, setConvertedCode] = useRecoilState(convertedCodeState);
+  const [loadedFileCode, setLoadedFileCode] =
+    useRecoilState(loadedFileCodeState);
+  const fileInput = useRef(null);
+
+  const handleAutocompletedCodeChange = useCallback((code) => {
+    setConvertedCode(code);
+  }, []);
+
+  const handleFileCodeChange = useCallback((code) => {
+    setLoadedFileCode(code);
+  }, []);
+
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   return (
     <>
       <Header>
@@ -19,8 +42,12 @@ export default function EditFile() {
       <ContentBox>
         <div css={editorWrapper}>
           <div css={{ ...textStyle, height: "40px" }}>
-            {CODE_AREA.AUTOCOMPLETE_COMPONENT_CODE}
+            {CODE_AREA.SCANNED_ELEMENT_COMPONENT_CODE}
           </div>
+          <Editor
+            code={convertedCode}
+            handleChange={handleAutocompletedCodeChange}
+          />
         </div>
         <div
           css={{
@@ -37,10 +64,23 @@ export default function EditFile() {
           >
             <div css={textStyle}>{CODE_AREA.LOADED_FILE_CODE}</div>
             <div>
-              <AiFillFolderOpen size="26" color={GREY_100} css={iconStyle} />
-              <CiSaveDown2 size="26" color={GREY_100} css={iconStyle} />
+              <input
+                type="file"
+                ref={fileInput}
+                onChange={handleFileChange}
+                css={{
+                  display: "none",
+                }}
+              />
+              <Button
+                text="Open"
+                handleClick={() => fileInput.current.click()}
+                marginRight="16px"
+              />
+              <Button text="Save" handleClick={() => console.log("save")} />
             </div>
           </div>
+          <Editor code={loadedFileCode} handleChange={handleFileCodeChange} />
         </div>
       </ContentBox>
     </>
@@ -57,10 +97,6 @@ const editorWrapper = {
 };
 
 const textStyle = {
-  fontSize: "14px",
-  color: GREY_100,
-};
-
-const iconStyle = {
-  marginRight: "16px",
+  fontSize: "16px",
+  color: GREY_150,
 };

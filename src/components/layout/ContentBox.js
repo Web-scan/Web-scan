@@ -9,7 +9,7 @@ export default function ContentBox({ children }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "6px",
+        marginTop: "6px",
         width: "100%",
         height: "calc(100vh - 92px)",
       }}
