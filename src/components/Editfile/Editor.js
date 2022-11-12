@@ -4,13 +4,15 @@ import { atomone } from "@uiw/codemirror-theme-atomone";
 
 import PropTypes from "prop-types";
 
+const editorHeight = (window.innerHeight - 168).toString() + "px";
+
 export default function Editor({ code, handleChange }) {
   return (
     <CodeMirror
       value={code}
       theme={atomone}
       extensions={[javascript({ jsx: true })]}
-      height="620px"
+      height={editorHeight}
       onChange={handleChange}
     />
   );
