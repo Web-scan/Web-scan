@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import PropTypes from "prop-types";
-import { GREY_50, GREY_100 } from "../../constants/color";
+import { GREY_50, GREY_150 } from "../../constants/color";
 
 export default function Header({ children }) {
   return (
@@ -14,7 +14,7 @@ export default function Header({ children }) {
         width: "100%",
         height: "86px",
         backgroundColor: GREY_50,
-        boxShadow: `0 0 6px ${GREY_100}`,
+        boxShadow: `0 0 6px ${GREY_150}`,
       }}
     >
       {children}
