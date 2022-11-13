@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useRecoilState } from "recoil";
 
 import Header from "../components/layout/Header";
@@ -9,14 +9,17 @@ import ContentBox from "../components/layout/ContentBox";
 import Logo from "../components/Logo";
 import Editor from "../components/Editfile/Editor";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
 
 import convertedCodeState from "../recoil/convertedCode";
 import loadedFileCodeState from "../recoil/loadedFileCode";
 
 import { GREY_50, GREY_150 } from "../constants/color";
-import { CODE_AREA } from "../constants/ui";
+import { CODE_AREA, BUTTON, SAVE_CODE, MODAL_HEADER } from "../constants/ui";
 
 export default function EditFile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saveResult, setSaveResult] = useState("");
   const [convertedCode, setConvertedCode] = useRecoilState(convertedCodeState);
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
@@ -32,6 +35,11 @@ export default function EditFile() {
 
   const handleFileChange = (e) => {
     console.log(e.target.files[0]);
+  };
+
+  const handleSaveClick = () => {
+    setIsModalOpen(true);
+    setSaveResult(SAVE_CODE.SUCCESS);
   };
 
   return (
@@ -73,14 +81,20 @@ export default function EditFile() {
                 }}
               />
               <Button
-                text="Open"
+                text={BUTTON.OPEN}
                 handleClick={() => fileInput.current.click()}
                 marginRight="16px"
               />
-              <Button text="Save" handleClick={() => console.log("save")} />
+              <Button text={BUTTON.SAVE} handleClick={handleSaveClick} />
             </div>
           </div>
           <Editor code={loadedFileCode} handleChange={handleFileCodeChange} />
+          <Modal
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            header={MODAL_HEADER.SAVE_RESULT}
+            content={saveResult}
+          />
         </div>
       </ContentBox>
     </>

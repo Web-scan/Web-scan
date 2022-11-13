@@ -10,6 +10,7 @@ export default function Button({
   height,
   borderRadius,
   marginRight,
+  backgroundColor,
 }) {
   return (
     <button
@@ -19,7 +20,8 @@ export default function Button({
         height,
         borderRadius,
         marginRight,
-        backgroundColor: GREY_50,
+        fontSize: "12px",
+        backgroundColor,
         "&:hover": {
           backgroundColor: GREY_100,
         },
@@ -40,10 +42,12 @@ Button.propTypes = {
   height: PropTypes.string,
   borderRadius: PropTypes.string,
   marginRight: PropTypes.string,
+  backgroundColor: PropTypes.string,
 };
 
 Button.defaultProps = {
   width: "80px",
   height: "30px",
   borderRadius: "10px",
+  backgroundColor: GREY_50,
 };

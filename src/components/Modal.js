@@ -1,0 +1,88 @@
+/** @jsxImportSource @emotion/react */
+
+import ReactDOM from "react-dom";
+
+import PropTypes from "prop-types";
+import { keyframes } from "@emotion/react";
+
+import { BUTTON } from "../constants/ui";
+import { GREY_50, GREY_100 } from "../constants/color";
+import Button from "./Button";
+
+function ModalPortal({ children }) {
+  const element = document.getElementById("modal");
+  return ReactDOM.createPortal(children, element);
+}
+
+export default function Modal({
+  isModalOpen,
+  setIsModalOpen,
+  header,
+  content,
+}) {
+  if (!isModalOpen) {
+    return null;
+  }
+
+  return (
+    <ModalPortal>
+      <div
+        css={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 99,
+          padding: "14px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "320px",
+          minHeight: "120px",
+          backgroundColor: GREY_50,
+          borderRadius: "15px",
+          fontSize: "14px",
+          wordBreak: "break-all",
+          animation: `${slide} 1s 1`,
+        }}
+      >
+        <div
+          css={{
+            width: "100%",
+            paddingBottom: "6px",
+            marginBottom: "14px",
+            textAlign: "center",
+            borderBottom: `1px solid ${GREY_100}`,
+          }}
+        >
+          {header}
+        </div>
+        <div css={{ marginBottom: "14px" }}>{content}</div>
+        <Button
+          text={BUTTON.CLOSE}
+          handleClick={() => setIsModalOpen(false)}
+          width="60px"
+          height="25px"
+          backgroundColor={GREY_100}
+        />
+      </div>
+    </ModalPortal>
+  );
+}
+
+Modal.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
+
+const slide = keyframes`
+  from {
+    transform: translate(-50%, -30%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+`;
