@@ -17,3 +17,6 @@ export const SAVE_CODE = {
 export const MODAL_HEADER = {
   SAVE_RESULT: "Save result",
 };
+export const COPY = {
+  FAIL: "Failed to copy code to the clipboard",
+};
