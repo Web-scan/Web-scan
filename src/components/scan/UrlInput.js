@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useSetRecoilState, useResetRecoilState } from "recoil";
 
-import websiteUrlState from "../recoil/websiteUrl";
-import convertedCodeState from "../recoil/convertedCode";
-import loadedFileCodeState from "../recoil/loadedFileCode";
+import websiteUrlState from "../../recoil/websiteUrl";
+import convertedCodeState from "../../recoil/convertedCode";
+import loadedFileCodeState from "../../recoil/loadedFileCode";
 
-import validateUrl from "../utils/validateUrl";
-import { WHITE, GREY_150 } from "../constants/color";
-import { HEADER_INPUT } from "../constants/ui";
+import validateUrl from "../../utils/validateUrl";
+import { WHITE, GREY_150 } from "../../constants/color";
+import { HEADER_INPUT } from "../../constants/ui";
 
 export default function UrlInput() {
   const [urlInputValue, setUrlInputValue] = useState("");

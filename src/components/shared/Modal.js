@@ -5,8 +5,8 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { keyframes } from "@emotion/react";
 
-import { BUTTON } from "../constants/ui";
-import { GREY_50, GREY_100 } from "../constants/color";
+import { BUTTON } from "../../constants/ui";
+import { GREY_50, GREY_100 } from "../../constants/color";
 import Button from "./Button";
 
 function ModalPortal({ children }) {
@@ -14,12 +14,7 @@ function ModalPortal({ children }) {
   return ReactDOM.createPortal(children, element);
 }
 
-export default function Modal({
-  isModalOpen,
-  setIsModalOpen,
-  header,
-  content,
-}) {
+export default function Modal({ isModalOpen, handleClose, header, content }) {
   if (!isModalOpen) {
     return null;
   }
@@ -49,10 +44,10 @@ export default function Modal({
       >
         <div
           css={{
-            width: "100%",
-            paddingBottom: "6px",
             marginBottom: "14px",
+            paddingBottom: "6px",
             textAlign: "center",
+            width: "100%",
             borderBottom: `1px solid ${GREY_100}`,
           }}
         >
@@ -61,7 +56,7 @@ export default function Modal({
         <div css={{ marginBottom: "14px" }}>{content}</div>
         <Button
           text={BUTTON.CLOSE}
-          handleClick={() => setIsModalOpen(false)}
+          handleClick={handleClose}
           width="60px"
           height="25px"
           backgroundColor={GREY_100}
@@ -73,7 +68,7 @@ export default function Modal({
 
 Modal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
 };

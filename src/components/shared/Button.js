@@ -1,26 +1,25 @@
 /** @jsxImportSource @emotion/react */
 
 import PropTypes from "prop-types";
-import { GREY_50, GREY_100, GREY_150 } from "../constants/color";
+import { GREY_50, GREY_100, GREY_150 } from "../../constants/color";
 
 export default function Button({
   text,
   handleClick,
+  marginRight,
   width,
   height,
   borderRadius,
-  marginRight,
   backgroundColor,
 }) {
   return (
     <button
       onClick={handleClick}
       css={{
+        marginRight,
         width,
         height,
         borderRadius,
-        marginRight,
-        fontSize: "12px",
         backgroundColor,
         "&:hover": {
           backgroundColor: GREY_100,
@@ -28,6 +27,7 @@ export default function Button({
         "&:active": {
           backgroundColor: GREY_150,
         },
+        fontSize: "12px",
       }}
     >
       {text}
@@ -38,10 +38,10 @@ export default function Button({
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
+  marginRight: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
   borderRadius: PropTypes.string,
-  marginRight: PropTypes.string,
   backgroundColor: PropTypes.string,
 };
 
