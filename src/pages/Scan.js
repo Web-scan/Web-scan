@@ -5,9 +5,9 @@ import { TfiFiles } from "react-icons/tfi";
 
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
-import UrlInput from "../components/UrlInput";
-import Button from "../components/Button";
-import Logo from "../components/Logo";
+import UrlInput from "../components/scan/UrlInput";
+import Button from "../components/shared/Button";
+import Logo from "../components/shared/Logo";
 
 import { LANDING_MESSAGE, BUTTON } from "../constants/ui";
 import { GREY_150 } from "../constants/color";

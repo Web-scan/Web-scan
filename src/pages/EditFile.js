@@ -1,41 +1,36 @@
 /** @jsxImportSource @emotion/react */
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import { useRecoilState } from "recoil";
 
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
 
-import Logo from "../components/Logo";
-import Editor from "../components/Editfile/Editor";
-import Button from "../components/Button";
-import Modal from "../components/Modal";
+import ScannedComponentCode from "../components/editFile/ScannedComponentCode";
+import LoadedFileCode from "../components/editFile/LoadedFileCode";
+import Logo from "../components/shared/Logo";
 
 import convertedCodeState from "../recoil/convertedCode";
 import loadedFileCodeState from "../recoil/loadedFileCode";
 
-import { GREY_50, GREY_150 } from "../constants/color";
-import { CODE_AREA, BUTTON, SAVE_CODE, MODAL_HEADER } from "../constants/ui";
+import { GREY_50 } from "../constants/color";
+import { SAVE_CODE } from "../constants/ui";
 
 export default function EditFile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saveResult, setSaveResult] = useState("");
-  const [convertedCode, setConvertedCode] = useRecoilState(convertedCodeState);
+  const [scannedComponentCode, setScannedComponentCode] =
+    useRecoilState(convertedCodeState);
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
-  const fileInput = useRef(null);
 
-  const handleAutocompletedCodeChange = useCallback((code) => {
-    setConvertedCode(code);
+  const handleConvertedCodeChange = useCallback((code) => {
+    setScannedComponentCode(code);
   }, []);
 
   const handleFileCodeChange = useCallback((code) => {
     setLoadedFileCode(code);
   }, []);
-
-  const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
-  };
 
   const handleSaveClick = () => {
     setIsModalOpen(true);
@@ -48,52 +43,25 @@ export default function EditFile() {
         <Logo />
       </Header>
       <ContentBox>
-        <div css={editorWrapper}>
-          <div css={{ ...textStyle, height: "40px" }}>
-            {CODE_AREA.SCANNED_ELEMENT_COMPONENT_CODE}
-          </div>
-          <Editor
-            code={convertedCode}
-            handleChange={handleAutocompletedCodeChange}
+        <div css={wrapper}>
+          <ScannedComponentCode
+            code={scannedComponentCode}
+            handleChange={handleConvertedCodeChange}
           />
         </div>
         <div
           css={{
-            ...editorWrapper,
+            ...wrapper,
             borderLeft: `1px solid ${GREY_50}`,
           }}
         >
-          <div
-            css={{
-              display: "flex",
-              justifyContent: "space-between",
-              height: "40px",
-            }}
-          >
-            <div css={textStyle}>{CODE_AREA.LOADED_FILE_CODE}</div>
-            <div>
-              <input
-                type="file"
-                ref={fileInput}
-                onChange={handleFileChange}
-                css={{
-                  display: "none",
-                }}
-              />
-              <Button
-                text={BUTTON.OPEN}
-                handleClick={() => fileInput.current.click()}
-                marginRight="16px"
-              />
-              <Button text={BUTTON.SAVE} handleClick={handleSaveClick} />
-            </div>
-          </div>
-          <Editor code={loadedFileCode} handleChange={handleFileCodeChange} />
-          <Modal
+          <LoadedFileCode
+            code={loadedFileCode}
+            handleChange={handleFileCodeChange}
+            handleClick={handleSaveClick}
             isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            header={MODAL_HEADER.SAVE_RESULT}
-            content={saveResult}
+            handleModalClose={() => setIsModalOpen(false)}
+            saveResult={saveResult}
           />
         </div>
       </ContentBox>
@@ -101,16 +69,11 @@ export default function EditFile() {
   );
 }
 
-const editorWrapper = {
+const wrapper = {
   display: "flex",
   flexDirection: "column",
   flex: 1,
   padding: "18px",
   width: "100%",
   height: "100%",
-};
-
-const textStyle = {
-  fontSize: "16px",
-  color: GREY_150,
 };
