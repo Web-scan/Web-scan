@@ -5,5 +5,15 @@ export const CODE_AREA = {
   LOADED_FILE_CODE: "Loaded file code",
 };
 export const BUTTON = {
-  copy: "COPY",
+  COPY: "Copy",
+  OPEN: "Open",
+  CLOSE: "Close",
+  SAVE: "Save",
+};
+export const SAVE_CODE = {
+  SUCCESS: "Your changes have been successfully saved",
+  FAIL: "Failed to save your changes",
+};
+export const MODAL_HEADER = {
+  SAVE_RESULT: "Save result",
 };

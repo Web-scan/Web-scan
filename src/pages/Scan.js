@@ -28,7 +28,7 @@ export default function Scan() {
       </Header>
       <ContentBox>
         <div css={{ fontSize: "18px", color: GREY_150 }}>{LANDING_MESSAGE}</div>
-        <Button text={BUTTON.copy} handleClick={() => console.log("copy")} />
+        <Button text={BUTTON.COPY} handleClick={() => console.log("copy")} />
       </ContentBox>
     </>
   );
