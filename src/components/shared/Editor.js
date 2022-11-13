@@ -20,5 +20,5 @@ export default function Editor({ code, handleChange }) {
 
 Editor.propTypes = {
   code: PropTypes.string,
-  handleChange: PropTypes.func.isRequired,
+  handleChange: PropTypes.func,
 };
