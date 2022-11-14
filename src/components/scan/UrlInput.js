@@ -9,7 +9,7 @@ import loadedFileCodeState from "../../recoil/loadedFileCode";
 
 import validateUrl from "../../utils/validateUrl";
 import { WHITE, GREY_150 } from "../../constants/color";
-import { HEADER_INPUT } from "../../constants/ui";
+import { HEADER_INPUT, INVALID_URL } from "../../constants/ui";
 
 export default function UrlInput() {
   const [urlInputValue, setUrlInputValue] = useState("");
@@ -21,13 +21,16 @@ export default function UrlInput() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!validateUrl(urlInputValue)) {
+      alert(INVALID_URL);
+      return setUrlInputValue("");
+    }
+
     if (urlInputValue && validateUrl(urlInputValue)) {
       setUrlState(urlInputValue);
       resetConvertedCodeState();
       resetLoadedFileState();
     }
-
-    setUrlInputValue("");
   };
 
   return (
