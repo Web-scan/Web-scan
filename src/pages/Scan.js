@@ -47,13 +47,10 @@ export default function Scan() {
         )}
         {WebsiteUrl && (
           <>
-            <div
-              css={{
-                flex: 7,
-              }}
-            >
-              Website rendering
-            </div>
+            <iframe
+              src={WebsiteUrl}
+              css={{ flex: 7, width: "100%", height: "100%", overflow: "auto" }}
+            />
             <SideEditorArea code={code} />
           </>
         )}
