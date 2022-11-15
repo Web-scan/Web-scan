@@ -42,7 +42,10 @@ export default function SideEditorArea({ code }) {
         <span css={{ color: GREY_150 }}>Component Code</span>
         <Button text={BUTTON.COPY} handleClick={handleClick} />
       </div>
-      <Editor code={code} />
+      <Editor
+        code={code}
+        width={(window.innerWidth * 0.3 - 20).toString() + "px"}
+      />
     </div>
   );
 }
