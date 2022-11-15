@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TfiFiles } from "react-icons/tfi";
 
 import { useRecoilValue } from "recoil";
+import axios from "axios";
 
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
@@ -13,14 +15,67 @@ import UrlInput from "../components/scan/UrlInput";
 import Logo from "../components/shared/Logo";
 
 import websiteUrlState from "../recoil/websiteUrl";
+import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 
 import { LANDING_MESSAGE } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
+  const [htmlString, setHtmlString] = useState("");
   const navigate = useNavigate();
   const WebsiteUrl = useRecoilValue(websiteUrlState);
-  const code = `const component = () => {\n <div>hello</div>\n}`;
+  const [componentCode, setComponentCode] = useState("");
+
+  useEffect(() => {
+    if (!WebsiteUrl) return;
+
+    const getHtml = async () => {
+      const { data } = await axios.get(WebsiteUrl);
+      setHtmlString(data);
+    };
+
+    setComponentCode("");
+    getHtml();
+  }, [WebsiteUrl]);
+
+  useEffect(() => {
+    if (!WebsiteUrl || !htmlString) return;
+
+    const showHighlightOnMousemove = (e) => {
+      e.target.classList.add("highlight");
+    };
+
+    const removeHighlightOnMouseout = (e) => {
+      e.target.classList.remove("highlight");
+    };
+
+    const getElementInformation = (e) => {
+      const target = e.target;
+
+      target.classList.remove("highlight");
+
+      const targetTagName = target.tagName.toLowerCase();
+      const targetContent = target.textContent;
+      const targetCustomStyle = getStylesWithoutDefaults(target);
+
+      const convertedCode = `<${targetTagName}\n style={${JSON.stringify(
+        targetCustomStyle,
+      )}}\n>\n ${targetContent}\n</${targetTagName}>`;
+
+      setComponentCode(convertedCode);
+    };
+
+    const webFrame = document.getElementById("web-frame");
+    webFrame.addEventListener("mousemove", showHighlightOnMousemove);
+    webFrame.addEventListener("mouseout", removeHighlightOnMouseout);
+    webFrame.addEventListener("click", getElementInformation);
+
+    return () => {
+      webFrame.removeEventListener("mousemove", showHighlightOnMousemove);
+      webFrame.removeEventListener("mouseout", removeHighlightOnMouseout);
+      webFrame.removeEventListener("click", getElementInformation);
+    };
+  }, [WebsiteUrl, htmlString]);
 
   return (
     <>
@@ -47,11 +102,12 @@ export default function Scan() {
         )}
         {WebsiteUrl && (
           <>
-            <iframe
-              src={WebsiteUrl}
+            <div
+              id="web-frame"
+              dangerouslySetInnerHTML={{ __html: htmlString }}
               css={{ flex: 7, width: "100%", height: "100%", overflow: "auto" }}
-            />
-            <SideEditorArea code={code} />
+            ></div>
+            <SideEditorArea code={componentCode} />
           </>
         )}
       </ContentBox>

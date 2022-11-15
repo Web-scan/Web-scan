@@ -40,6 +40,7 @@ export default function UrlInput() {
         placeholder={HEADER_INPUT}
         value={urlInputValue}
         onChange={(e) => setUrlInputValue(e.target.value)}
+        onFocus={() => setUrlInputValue("")}
         css={{
           padding: "14px 20px",
           width: "800px",

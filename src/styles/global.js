@@ -13,6 +13,10 @@ const style = {
     height: "100%",
     overflow: "hidden",
   },
+  ".highlight": {
+    backgroundColor: "#fcddec",
+    boxShadow: "#fcddec 0px 0px 0px 2px",
+  },
 };
 
 export default function GlobalStyle() {

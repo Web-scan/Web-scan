@@ -15,6 +15,7 @@ export default function Header({ children }) {
         height: "86px",
         backgroundColor: GREY_50,
         boxShadow: `0 0 6px ${GREY_150}`,
+        zIndex: 999,
       }}
     >
       {children}
