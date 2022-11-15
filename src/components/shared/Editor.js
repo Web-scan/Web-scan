@@ -12,6 +12,7 @@ export default function Editor({ code, handleChange }) {
       value={code}
       theme={atomone}
       extensions={[javascript({ jsx: true })]}
+      width="400px"
       height={editorHeight}
       onChange={handleChange}
     />

@@ -20,4 +20,7 @@ export const MODAL_HEADER = {
 export const COPY = {
   FAIL: "Failed to copy code to the clipboard",
 };
-export const INVALID_URL = "Invalid URL. Please check your input";
+export const ERROR = {
+  INVALID_URL: "Invalid URL. Please check your input",
+  OPEN_WEBSITE: "Can't open the website",
+};

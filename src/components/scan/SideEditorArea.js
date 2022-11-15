@@ -27,6 +27,7 @@ export default function SideEditorArea({ code }) {
         padding: "10px",
         borderLeft: `1px solid ${GREY_100}`,
         animation: `${slide} 1s 1`,
+        zIndex: 999,
       }}
     >
       <div
