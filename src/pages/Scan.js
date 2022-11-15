@@ -17,7 +17,7 @@ import Logo from "../components/shared/Logo";
 import websiteUrlState from "../recoil/websiteUrl";
 import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 
-import { LANDING_MESSAGE } from "../constants/ui";
+import { LANDING_MESSAGE, ERROR } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
@@ -30,8 +30,12 @@ export default function Scan() {
     if (!WebsiteUrl) return;
 
     const getHtml = async () => {
-      const { data } = await axios.get(WebsiteUrl);
-      setHtmlString(data);
+      try {
+        const { data } = await axios.get(WebsiteUrl);
+        setHtmlString(data);
+      } catch (e) {
+        alert(ERROR.OPEN_WEBSITE);
+      }
     };
 
     setComponentCode("");
