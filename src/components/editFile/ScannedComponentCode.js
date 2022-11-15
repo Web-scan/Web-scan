@@ -13,7 +13,11 @@ export default function ScannedComponentCode({ code, handleChange }) {
       <div css={{ ...textStyle, height: "40px" }}>
         {CODE_AREA.SCANNED_ELEMENT_COMPONENT_CODE}
       </div>
-      <Editor code={code} handleChange={handleChange} />
+      <Editor
+        code={code}
+        handleChange={handleChange}
+        width={(window.innerWidth * 0.5 - 36).toString() + "px"}
+      />
     </>
   );
 }
