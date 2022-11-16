@@ -43,7 +43,11 @@ export default function LoadedFileCode({
           <Button text={BUTTON.SAVE} handleClick={handleClick} />
         </div>
       </div>
-      <Editor code={code} handleChange={handleChange} />
+      <Editor
+        code={code}
+        handleChange={handleChange}
+        width={(window.innerWidth * 0.5 - 36).toString() + "px"}
+      />
       <Modal
         isModalOpen={isModalOpen}
         handleClose={handleModalClose}
