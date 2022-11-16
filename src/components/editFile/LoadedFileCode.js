@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useRef } from "react";
 
+import fs from "fs";
 import PropTypes from "prop-types";
 
 import Button from "../shared/Button";
@@ -18,10 +19,15 @@ export default function LoadedFileCode({
   isModalOpen,
   handleModalClose,
   saveResult,
+  handleFilePath,
 }) {
   const fileInput = useRef(null);
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
+    const filePath = e.target.files[0].path;
+    const data = fs.readFileSync(filePath, "utf8");
+
+    handleFilePath(filePath);
+    handleChange(data);
   };
 
   return (
@@ -70,4 +76,5 @@ LoadedFileCode.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   handleModalClose: PropTypes.func.isRequired,
   saveResult: PropTypes.string,
+  handleFilePath: PropTypes.func.isRequired,
 };

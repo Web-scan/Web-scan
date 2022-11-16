@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import { useState, useCallback } from "react";
+
+import fs from "fs";
 import { useRecoilState } from "recoil";
 
 import Header from "../components/layout/Header";
@@ -18,6 +20,7 @@ import { SAVE_CODE } from "../constants/ui";
 
 export default function EditFile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filePath, setFilePath] = useState("");
   const [saveResult, setSaveResult] = useState("");
   const [scannedElementCode, setScannedElementCode] = useRecoilState(
     scannedElementCodeState,
@@ -33,9 +36,22 @@ export default function EditFile() {
     setLoadedFileCode(code);
   }, []);
 
-  const handleSaveClick = () => {
-    setIsModalOpen(true);
-    setSaveResult(SAVE_CODE.SUCCESS);
+  const handleSaveClick = async () => {
+    try {
+      await fs.writeFile(filePath, loadedFileCode, (err) => {
+        if (err) {
+          setIsModalOpen(true);
+          setSaveResult(SAVE_CODE.FAIL);
+          return;
+        }
+
+        setIsModalOpen(true);
+        setSaveResult(SAVE_CODE.SUCCESS);
+      });
+    } catch (e) {
+      setIsModalOpen(true);
+      setSaveResult(SAVE_CODE.SUCCESS);
+    }
   };
 
   return (
@@ -63,6 +79,7 @@ export default function EditFile() {
             isModalOpen={isModalOpen}
             handleModalClose={() => setIsModalOpen(false)}
             saveResult={saveResult}
+            handleFilePath={(path) => setFilePath(path)}
           />
         </div>
       </ContentBox>

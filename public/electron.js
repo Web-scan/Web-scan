@@ -7,11 +7,11 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      enableRemoteModule: true,
       webSecurity: false,
     },
   });
   win.loadURL("http://localhost:3000");
-  win.openDevTools();
 }
 app.whenReady().then(() => {
   createWindow();
