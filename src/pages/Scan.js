@@ -14,12 +14,15 @@ import StyleInfoModal from "../components/scan/StyleInfoModal";
 import SideEditorArea from "../components/scan/SideEditorArea";
 import UrlInput from "../components/scan/UrlInput";
 import Logo from "../components/shared/Logo";
+import Modal from "../components/shared/Modal";
 
 import websiteUrlState from "../recoil/websiteUrl";
 import scannedElementCodeState from "../recoil/scannedElementCode";
-import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 
-import { LANDING_MESSAGE, ERROR } from "../constants/ui";
+import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
+import checkStyleOptimizationPoint from "../utils/checkStyleOptimizationPoint";
+
+import { LANDING_MESSAGE, ERROR, STYLES_ADVICE } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
@@ -28,13 +31,15 @@ export default function Scan() {
     scannedElementCodeState,
   );
   const [htmlString, setHtmlString] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStyleInfoModalOpen, setIsStyleInfoModalOpen] = useState(false);
+  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
   const [modalCoordinate, setModalCoordinate] = useState({ x: 0, y: 0 });
   const [styleInfo, setStyleInfo] = useState({
     tagName: "",
     className: "",
     computedStyle: {},
   });
+  const [adviceContent, setAdviceContent] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function Scan() {
 
       if (targetElement.classList.contains("highlight")) return;
 
-      setIsModalOpen(true);
+      setIsStyleInfoModalOpen(true);
       setModalCoordinate({ x: e.x + 100, y: e.y - 100 });
       setStyleInfo({
         tagName: targetElement.tagName.toLowerCase(),
@@ -71,19 +76,25 @@ export default function Scan() {
     };
 
     const removeHighlightOnMouseout = (e) => {
-      setIsModalOpen(false);
+      setIsStyleInfoModalOpen(false);
       e.target.classList.remove("highlight");
     };
 
     const getElementInformation = (e) => {
       const targetElement = e.target;
 
-      setIsModalOpen(false);
+      setIsStyleInfoModalOpen(false);
       targetElement.classList.remove("highlight");
 
       const targetTagName = targetElement.tagName.toLowerCase();
       const targetContent = targetElement.textContent;
       const targetCustomStyle = getStylesWithoutDefaults(targetElement);
+
+      checkStyleOptimizationPoint(
+        targetCustomStyle,
+        setIsAdviceModalOpen,
+        setAdviceContent,
+      );
 
       const convertedCode = `<${targetTagName}\n style={${JSON.stringify(
         targetCustomStyle,
@@ -145,9 +156,15 @@ export default function Scan() {
           </>
         )}
         <StyleInfoModal
-          isModalOpen={isModalOpen}
+          isModalOpen={isStyleInfoModalOpen}
           modalCoordinate={modalCoordinate}
           styleInfo={styleInfo}
+        />
+        <Modal
+          isModalOpen={isAdviceModalOpen}
+          handleClose={() => setIsAdviceModalOpen(false)}
+          header={STYLES_ADVICE.HEADER}
+          content={adviceContent}
         />
       </ContentBox>
     </>

@@ -24,3 +24,10 @@ export const ERROR = {
   INVALID_URL: "Invalid URL. Please check your input",
   OPEN_WEBSITE: "Can't open the website",
 };
+export const STYLES_ADVICE = {
+  HEADER: "Style advice",
+  VISIBILITY: "Visibility: invisible to display: none",
+  TABLE_LAYOUT: "Table layout should be fixed",
+  ANIMATION_DISPLAY:
+    "Display should be fixed or absolute when you add animation",
+};
