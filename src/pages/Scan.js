@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { TfiFiles } from "react-icons/tfi";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import axios from "axios";
 
 import Header from "../components/layout/Header";
@@ -15,6 +15,7 @@ import UrlInput from "../components/scan/UrlInput";
 import Logo from "../components/shared/Logo";
 
 import websiteUrlState from "../recoil/websiteUrl";
+import scannedElementCodeState from "../recoil/scannedElementCode";
 import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 
 import { LANDING_MESSAGE, ERROR } from "../constants/ui";
@@ -24,7 +25,9 @@ export default function Scan() {
   const [htmlString, setHtmlString] = useState("");
   const navigate = useNavigate();
   const WebsiteUrl = useRecoilValue(websiteUrlState);
-  const [componentCode, setComponentCode] = useState("");
+  const [scannedElementCode, setScannedElementCode] = useRecoilState(
+    scannedElementCodeState,
+  );
 
   useEffect(() => {
     if (!WebsiteUrl) return;
@@ -38,7 +41,6 @@ export default function Scan() {
       }
     };
 
-    setComponentCode("");
     getHtml();
   }, [WebsiteUrl]);
 
@@ -66,7 +68,7 @@ export default function Scan() {
         targetCustomStyle,
       )}}\n>\n ${targetContent}\n</${targetTagName}>`;
 
-      setComponentCode(convertedCode);
+      setScannedElementCode(convertedCode);
     };
 
     const webFrame = document.getElementById("web-frame");
@@ -80,6 +82,10 @@ export default function Scan() {
       webFrame.removeEventListener("click", getElementInformation);
     };
   }, [WebsiteUrl, htmlString]);
+
+  const handleChange = useCallback((code) => {
+    setScannedElementCode(code);
+  }, []);
 
   return (
     <>
@@ -111,7 +117,10 @@ export default function Scan() {
               dangerouslySetInnerHTML={{ __html: htmlString }}
               css={{ flex: 7, width: "100%", height: "100%", overflow: "auto" }}
             ></div>
-            <SideEditorArea code={componentCode} />
+            <SideEditorArea
+              code={scannedElementCode}
+              handleChange={handleChange}
+            />
           </>
         )}
       </ContentBox>

@@ -9,7 +9,7 @@ import Button from "../shared/Button";
 import { BUTTON, COPY } from "../../constants/ui";
 import { GREY_100, GREY_150 } from "../../constants/color";
 
-export default function SideEditorArea({ code }) {
+export default function SideEditorArea({ code, handleChange }) {
   const handleClick = async () => {
     try {
       await navigator.clipboard.writeText(code);
@@ -45,6 +45,7 @@ export default function SideEditorArea({ code }) {
       <Editor
         code={code}
         width={(window.innerWidth * 0.3 - 20).toString() + "px"}
+        handleChange={handleChange}
       />
     </div>
   );
@@ -52,6 +53,7 @@ export default function SideEditorArea({ code }) {
 
 SideEditorArea.propTypes = {
   code: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
 };
 
 const slide = keyframes`
