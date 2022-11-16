@@ -10,6 +10,7 @@ import axios from "axios";
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
 
+import StyleInfoModal from "../components/scan/StyleInfoModal";
 import SideEditorArea from "../components/scan/SideEditorArea";
 import UrlInput from "../components/scan/UrlInput";
 import Logo from "../components/shared/Logo";
@@ -22,19 +23,26 @@ import { LANDING_MESSAGE, ERROR } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
-  const [htmlString, setHtmlString] = useState("");
-  const navigate = useNavigate();
-  const WebsiteUrl = useRecoilValue(websiteUrlState);
+  const websiteUrl = useRecoilValue(websiteUrlState);
   const [scannedElementCode, setScannedElementCode] = useRecoilState(
     scannedElementCodeState,
   );
+  const [htmlString, setHtmlString] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCoordinate, setModalCoordinate] = useState({ x: 0, y: 0 });
+  const [styleInfo, setStyleInfo] = useState({
+    tagName: "",
+    className: "",
+    computedStyle: {},
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!WebsiteUrl) return;
+    if (!websiteUrl) return;
 
     const getHtml = async () => {
       try {
-        const { data } = await axios.get(WebsiteUrl);
+        const { data } = await axios.get(websiteUrl);
         setHtmlString(data);
       } catch (e) {
         alert(ERROR.OPEN_WEBSITE);
@@ -42,27 +50,40 @@ export default function Scan() {
     };
 
     getHtml();
-  }, [WebsiteUrl]);
+  }, [websiteUrl]);
 
   useEffect(() => {
-    if (!WebsiteUrl || !htmlString) return;
+    if (!websiteUrl || !htmlString) return;
 
     const showHighlightOnMousemove = (e) => {
-      e.target.classList.add("highlight");
+      const targetElement = e.target;
+
+      if (targetElement.classList.contains("highlight")) return;
+
+      setIsModalOpen(true);
+      setModalCoordinate({ x: e.x + 100, y: e.y - 100 });
+      setStyleInfo({
+        tagName: targetElement.tagName.toLowerCase(),
+        className: targetElement.className,
+        computedStyle: getStylesWithoutDefaults(targetElement),
+      });
+      targetElement.classList.add("highlight");
     };
 
     const removeHighlightOnMouseout = (e) => {
+      setIsModalOpen(false);
       e.target.classList.remove("highlight");
     };
 
     const getElementInformation = (e) => {
-      const target = e.target;
+      const targetElement = e.target;
 
-      target.classList.remove("highlight");
+      setIsModalOpen(false);
+      targetElement.classList.remove("highlight");
 
-      const targetTagName = target.tagName.toLowerCase();
-      const targetContent = target.textContent;
-      const targetCustomStyle = getStylesWithoutDefaults(target);
+      const targetTagName = targetElement.tagName.toLowerCase();
+      const targetContent = targetElement.textContent;
+      const targetCustomStyle = getStylesWithoutDefaults(targetElement);
 
       const convertedCode = `<${targetTagName}\n style={${JSON.stringify(
         targetCustomStyle,
@@ -81,7 +102,7 @@ export default function Scan() {
       webFrame.removeEventListener("mouseout", removeHighlightOnMouseout);
       webFrame.removeEventListener("click", getElementInformation);
     };
-  }, [WebsiteUrl, htmlString]);
+  }, [websiteUrl, htmlString]);
 
   const handleChange = useCallback((code) => {
     setScannedElementCode(code);
@@ -99,7 +120,7 @@ export default function Scan() {
         />
       </Header>
       <ContentBox>
-        {!WebsiteUrl && (
+        {!websiteUrl && (
           <div
             css={{
               textAlign: "center",
@@ -110,7 +131,7 @@ export default function Scan() {
             {LANDING_MESSAGE}
           </div>
         )}
-        {WebsiteUrl && (
+        {websiteUrl && (
           <>
             <div
               id="web-frame"
@@ -123,6 +144,11 @@ export default function Scan() {
             />
           </>
         )}
+        <StyleInfoModal
+          isModalOpen={isModalOpen}
+          modalCoordinate={modalCoordinate}
+          styleInfo={styleInfo}
+        />
       </ContentBox>
     </>
   );
