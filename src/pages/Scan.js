@@ -21,6 +21,7 @@ import scannedElementCodeState from "../recoil/scannedElementCode";
 
 import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../utils/checkStyleOptimizationPoint";
+import convertToComponent from "../utils/convertToComponent";
 
 import { LANDING_MESSAGE, ERROR, STYLES_ADVICE } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
@@ -86,21 +87,13 @@ export default function Scan() {
       setIsStyleInfoModalOpen(false);
       targetElement.classList.remove("highlight");
 
-      const targetTagName = targetElement.tagName.toLowerCase();
-      const targetContent = targetElement.textContent;
-      const targetCustomStyle = getStylesWithoutDefaults(targetElement);
-
       checkStyleOptimizationPoint(
-        targetCustomStyle,
+        getStylesWithoutDefaults(targetElement),
         setIsAdviceModalOpen,
         setAdviceContent,
       );
 
-      const convertedCode = `<${targetTagName}\n style={${JSON.stringify(
-        targetCustomStyle,
-      )}}\n>\n ${targetContent}\n</${targetTagName}>`;
-
-      setScannedElementCode(convertedCode);
+      setScannedElementCode(convertToComponent(targetElement.outerHTML));
     };
 
     const webFrame = document.getElementById("web-frame");
