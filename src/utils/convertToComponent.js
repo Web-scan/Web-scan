@@ -1,7 +1,7 @@
 import HtmlToJsx from "htmltojsx";
 
 function removeEmptyClassName(html) {
-  return html.replaceAll(/class=""/g, "");
+  return html.replaceAll(/class=""|style=""/g, "");
 }
 
 export default function convertToComponent(html) {
