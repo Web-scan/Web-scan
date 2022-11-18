@@ -1,13 +1,17 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Scan from "./pages/Scan";
-import EditFile from "./pages/EditFile";
+const Scan = lazy(() => import("./pages/Scan"));
+const EditFile = lazy(() => import("./pages/EditFile"));
+import Loading from "../src/components/shared/Loading";
 
 export default function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<Scan />} />
-      <Route path="/edit" element={<EditFile />} />
-    </Routes>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<Scan />} />
+        <Route path="/edit" element={<EditFile />} />
+      </Routes>
+    </Suspense>
   );
 }
