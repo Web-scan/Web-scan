@@ -5,9 +5,10 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { keyframes } from "@emotion/react";
 
+import Button from "./Button";
+
 import { BUTTON } from "../../constants/ui";
 import { GREY_50, GREY_100 } from "../../constants/color";
-import Button from "./Button";
 
 function ModalPortal({ children }) {
   const element = document.getElementById("modal");

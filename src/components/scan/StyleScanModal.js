@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import ReactDOM from "react-dom";
-
 import PropTypes from "prop-types";
+
 import {
   DARK_NAVY_50,
   GREEN_50,

@@ -8,6 +8,7 @@ import scannedElementComponentCodeState from "../../recoil/scannedElementCompone
 import loadedFileCodeState from "../../recoil/loadedFileCode";
 
 import validateUrl from "../../utils/validateUrl";
+
 import { WHITE, GREY_150 } from "../../constants/color";
 import { HEADER_INPUT, ERROR } from "../../constants/ui";
 

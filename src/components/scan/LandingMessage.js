@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import { GREY_150 } from "../../constants/color";
 import { LANDING_MESSAGE } from "../../constants/ui";
+import { GREY_150 } from "../../constants/color";
 
 export default function LandingMessage() {
   return (

@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+
+import Modal from "../shared/Modal";
+import StyleScanModal from "./StyleScanModal";
+
 import getStylesWithoutDefaults from "../../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../../utils/checkStyleOptimizationPoint";
 import convertToComponent from "../../utils/convertToComponent";
-import Modal from "../shared/Modal";
+
 import { STYLES_ADVICE } from "../../constants/ui";
-import StyleScanModal from "./StyleScanModal";
 
 export default function WebFrame({ htmlString, handleChange }) {
   const [isStyleInfoModalOpen, setIsStyleInfoModalOpen] = useState(false);

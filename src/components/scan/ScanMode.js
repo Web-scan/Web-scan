@@ -6,10 +6,11 @@ import { useRecoilState } from "recoil";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-import { ERROR } from "../../constants/ui";
-import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
 import SideEditorArea from "./SideEditorArea";
 import WebFrame from "./WebFrame";
+
+import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
+import { ERROR } from "../../constants/ui";
 
 export default function ScanMode({ websiteUrl }) {
   const [htmlString, setHtmlString] = useState("");
