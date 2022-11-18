@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSetRecoilState, useResetRecoilState } from "recoil";
 
 import websiteUrlState from "../../recoil/websiteUrl";
-import scannedElementCodeState from "../../recoil/scannedElementCode";
+import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
 import loadedFileCodeState from "../../recoil/loadedFileCode";
 
 import validateUrl from "../../utils/validateUrl";
@@ -15,8 +15,10 @@ export default function UrlInput() {
   const [urlInputValue, setUrlInputValue] = useState("");
 
   const setUrlState = useSetRecoilState(websiteUrlState);
-  const resetScannedCodeState = useResetRecoilState(scannedElementCodeState);
-  const resetLoadedFileState = useResetRecoilState(loadedFileCodeState);
+  const resetScannedElementComponentCodeState = useResetRecoilState(
+    scannedElementComponentCodeState,
+  );
+  const resetLoadedFileCodeState = useResetRecoilState(loadedFileCodeState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,8 +30,8 @@ export default function UrlInput() {
 
     if (urlInputValue && validateUrl(urlInputValue)) {
       setUrlState(urlInputValue);
-      resetScannedCodeState();
-      resetLoadedFileState();
+      resetScannedElementComponentCodeState();
+      resetLoadedFileCodeState();
     }
   };
 
