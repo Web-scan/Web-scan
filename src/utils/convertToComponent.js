@@ -1,11 +1,11 @@
 import HtmlToJsx from "htmltojsx";
 
-function removeEmptyClassName(html) {
+function removeEmptyClassAndStyle(html) {
   return html.replaceAll(/class=""|style=""/g, "");
 }
 
 export default function convertToComponent(html) {
-  const cleanedHtml = removeEmptyClassName(html);
+  const cleanedHtml = removeEmptyClassAndStyle(html);
 
   const converter = new HtmlToJsx({
     createClass: false,
@@ -15,7 +15,7 @@ export default function convertToComponent(html) {
   const formattedJsxArray = jsx.split("\n").map((code) => "    " + code + "\n");
   formattedJsxArray.pop();
 
-  return `const component = () => {\n  return (\n${formattedJsxArray.join(
+  return `const Component = () => {\n  return (\n${formattedJsxArray.join(
     "",
   )}  );\n};`;
 }

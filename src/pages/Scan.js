@@ -93,7 +93,43 @@ export default function Scan() {
         setAdviceContent,
       );
 
+      const classNameList = [];
+
+      function setInLineStyles(element) {
+        element.childNodes.forEach(function (childElement) {
+          setInLineStyles(childElement);
+        });
+        const customStyles = getStylesWithoutDefaults(element);
+
+        if (customStyles) {
+          for (const [key, value] of Object.entries(customStyles)) {
+            element.style[key] = value;
+          }
+        }
+
+        if (element.tagName) {
+          classNameList.push(element.className);
+          element.className = "";
+        }
+      }
+
+      setInLineStyles(targetElement);
       setScannedElementCode(convertToComponent(targetElement.outerHTML));
+
+      function setClassName(element) {
+        element.childNodes.forEach(function (childElement) {
+          setClassName(childElement);
+        });
+
+        if (element.tagName) {
+          const targetElementClassName = classNameList.shift();
+          if (targetElementClassName) {
+            element.className = targetElementClassName;
+          }
+        }
+      }
+
+      setClassName(targetElement);
     };
 
     const webFrame = document.getElementById("web-frame");

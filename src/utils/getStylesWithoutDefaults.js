@@ -1,4 +1,6 @@
 export default function getStylesWithoutDefaults(element) {
+  if (!element.tagName) return;
+
   const styles = window.getComputedStyle(element);
   const inlineStyles = element.getAttribute("style");
 
