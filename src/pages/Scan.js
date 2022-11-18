@@ -17,7 +17,7 @@ import Logo from "../components/shared/Logo";
 import Modal from "../components/shared/Modal";
 
 import websiteUrlState from "../recoil/websiteUrl";
-import scannedElementCodeState from "../recoil/scannedElementCode";
+import scannedElementComponentCodeState from "../recoil/scannedElementComponentCode";
 
 import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../utils/checkStyleOptimizationPoint";
@@ -28,9 +28,8 @@ import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
   const websiteUrl = useRecoilValue(websiteUrlState);
-  const [scannedElementCode, setScannedElementCode] = useRecoilState(
-    scannedElementCodeState,
-  );
+  const [scannedElementComponentCode, setScannedElementComponentCode] =
+    useRecoilState(scannedElementComponentCodeState);
   const [htmlString, setHtmlString] = useState("");
   const [isStyleInfoModalOpen, setIsStyleInfoModalOpen] = useState(false);
   const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
@@ -93,7 +92,7 @@ export default function Scan() {
         setAdviceContent,
       );
 
-      setScannedElementCode(convertToComponent(targetElement.outerHTML));
+      setScannedElementComponentCode(convertToComponent(targetElement));
     };
 
     const webFrame = document.getElementById("web-frame");
@@ -109,7 +108,7 @@ export default function Scan() {
   }, [websiteUrl, htmlString]);
 
   const handleChange = useCallback((code) => {
-    setScannedElementCode(code);
+    setScannedElementComponentCode(code);
   }, []);
 
   return (
@@ -143,7 +142,7 @@ export default function Scan() {
               css={{ flex: 7, width: "100%", height: "100%", overflow: "auto" }}
             ></div>
             <SideEditorArea
-              code={scannedElementCode}
+              code={scannedElementComponentCode}
               handleChange={handleChange}
             />
           </>

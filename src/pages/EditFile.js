@@ -12,7 +12,7 @@ import ScannedComponentCode from "../components/editFile/ScannedComponentCode";
 import LoadedFileCode from "../components/editFile/LoadedFileCode";
 import Logo from "../components/shared/Logo";
 
-import scannedElementCodeState from "../recoil/scannedElementCode";
+import scannedElementComponentCodeState from "../recoil/scannedElementComponentCode";
 import loadedFileCodeState from "../recoil/loadedFileCode";
 
 import { GREY_50 } from "../constants/color";
@@ -22,14 +22,13 @@ export default function EditFile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filePath, setFilePath] = useState("");
   const [saveResult, setSaveResult] = useState("");
-  const [scannedElementCode, setScannedElementCode] = useRecoilState(
-    scannedElementCodeState,
-  );
+  const [scannedElementComponentCode, setScannedElementComponentCode] =
+    useRecoilState(scannedElementComponentCodeState);
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
 
   const handleScannedElementCodeChange = useCallback((code) => {
-    setScannedElementCode(code);
+    setScannedElementComponentCode(code);
   }, []);
 
   const handleFileCodeChange = useCallback((code) => {
@@ -62,7 +61,7 @@ export default function EditFile() {
       <ContentBox>
         <div css={wrapper}>
           <ScannedComponentCode
-            code={scannedElementCode}
+            code={scannedElementComponentCode}
             handleChange={handleScannedElementCodeChange}
           />
         </div>

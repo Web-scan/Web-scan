@@ -1,11 +1,47 @@
 import HtmlToJsx from "htmltojsx";
+import getStylesWithoutDefaults from "./getStylesWithoutDefaults";
 
-function removeEmptyClassName(html) {
+const classNameList = [];
+
+function setInLineStyles(element) {
+  element.childNodes.forEach(function (childElement) {
+    setInLineStyles(childElement);
+  });
+  const customStyles = getStylesWithoutDefaults(element);
+
+  if (customStyles) {
+    for (const [key, value] of Object.entries(customStyles)) {
+      element.style[key] = value;
+    }
+  }
+
+  if (element.tagName) {
+    classNameList.push(element.className);
+    element.className = "";
+  }
+}
+
+function setClassName(element) {
+  element.childNodes.forEach(function (childElement) {
+    setClassName(childElement);
+  });
+
+  if (element.tagName) {
+    const targetElementClassName = classNameList.shift();
+    if (targetElementClassName) {
+      element.className = targetElementClassName;
+    }
+  }
+}
+
+function removeEmptyClassAndStyle(html) {
   return html.replaceAll(/class=""|style=""/g, "");
 }
 
-export default function convertToComponent(html) {
-  const cleanedHtml = removeEmptyClassName(html);
+export default function convertToComponent(element) {
+  setInLineStyles(element);
+
+  const cleanedHtml = removeEmptyClassAndStyle(element.outerHTML);
 
   const converter = new HtmlToJsx({
     createClass: false,
@@ -15,7 +51,9 @@ export default function convertToComponent(html) {
   const formattedJsxArray = jsx.split("\n").map((code) => "    " + code + "\n");
   formattedJsxArray.pop();
 
-  return `const component = () => {\n  return (\n${formattedJsxArray.join(
+  setClassName(element);
+
+  return `const Component = () => {\n  return (\n${formattedJsxArray.join(
     "",
   )}  );\n};`;
 }
