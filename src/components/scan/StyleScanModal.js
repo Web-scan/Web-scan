@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import ReactDOM from "react-dom";
-
 import PropTypes from "prop-types";
+
 import {
   DARK_NAVY_50,
   GREEN_50,
@@ -16,19 +16,23 @@ function ModalPortal({ children }) {
   return ReactDOM.createPortal(children, element);
 }
 
-export default function StyleInfoModal({
+export default function StyleScanModal({
   isModalOpen,
   modalCoordinate,
-  styleInfo,
+  elementInfo,
 }) {
+  const { x, y } = modalCoordinate;
+  const { tagName, className, customStyles } = elementInfo;
+
   if (!isModalOpen) return null;
+
   return (
     <ModalPortal>
       <div
         css={{
           position: "fixed",
-          top: modalCoordinate.y,
-          left: modalCoordinate.x,
+          top: y,
+          left: x,
           display: "flex",
           flexDirection: "column",
           padding: "16px",
@@ -42,10 +46,10 @@ export default function StyleInfoModal({
           css={{ paddingBottom: "10px", borderBottom: `1px solid ${GREY_50}` }}
         >
           <div css={{ fontSize: "18px", fontWeight: "bold", color: GREEN_50 }}>
-            {styleInfo.tagName}
+            {tagName}
           </div>
           <small css={{ color: GREEN_50 }}>
-            {styleInfo.className ? `.${styleInfo.className}` : ""}
+            {className ? `.${className}` : ""}
           </small>
         </div>
         <div
@@ -53,7 +57,7 @@ export default function StyleInfoModal({
             paddingTop: "10px",
           }}
         >
-          {Object.entries(styleInfo.computedStyle).map(([key, value]) => {
+          {Object.entries(customStyles).map(([key, value]) => {
             return (
               <div key={key}>
                 <span css={{ color: BLUE_50 }}>{key} : </span>
@@ -67,8 +71,8 @@ export default function StyleInfoModal({
   );
 }
 
-StyleInfoModal.propTypes = {
+StyleScanModal.propTypes = {
   modalCoordinate: PropTypes.object.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
-  styleInfo: PropTypes.object.isRequired,
+  elementInfo: PropTypes.object.isRequired,
 };
