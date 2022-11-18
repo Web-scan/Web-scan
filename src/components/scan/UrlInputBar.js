@@ -11,7 +11,7 @@ import validateUrl from "../../utils/validateUrl";
 import { WHITE, GREY_150 } from "../../constants/color";
 import { HEADER_INPUT, ERROR } from "../../constants/ui";
 
-export default function UrlInput() {
+export default function UrlInputBar() {
   const [urlInputValue, setUrlInputValue] = useState("");
 
   const setUrlState = useSetRecoilState(websiteUrlState);
