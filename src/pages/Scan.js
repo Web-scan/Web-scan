@@ -10,6 +10,7 @@ import axios from "axios";
 import Header from "../components/layout/Header";
 import ContentBox from "../components/layout/ContentBox";
 
+import LandingMessage from "../components/scan/LandingMessage";
 import StyleInfoModal from "../components/scan/StyleInfoModal";
 import SideEditorArea from "../components/scan/SideEditorArea";
 import UrlInput from "../components/scan/UrlInput";
@@ -23,7 +24,7 @@ import getStylesWithoutDefaults from "../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../utils/checkStyleOptimizationPoint";
 import convertToComponent from "../utils/convertToComponent";
 
-import { LANDING_MESSAGE, ERROR, STYLES_ADVICE } from "../constants/ui";
+import { ERROR, STYLES_ADVICE } from "../constants/ui";
 import { GREY_150 } from "../constants/color";
 
 export default function Scan() {
@@ -123,17 +124,7 @@ export default function Scan() {
         />
       </Header>
       <ContentBox>
-        {!websiteUrl && (
-          <div
-            css={{
-              textAlign: "center",
-              fontSize: "18px",
-              color: GREY_150,
-            }}
-          >
-            {LANDING_MESSAGE}
-          </div>
-        )}
+        {!websiteUrl && <LandingMessage />}
         {websiteUrl && (
           <>
             <div
