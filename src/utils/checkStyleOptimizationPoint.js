@@ -5,26 +5,20 @@ export default function checkStyleOptimizationPoint(
   openModal,
   handleContent,
 ) {
-  if (
-    Object.keys(elementStyle).includes("visibility") &&
-    elementStyle.visibility === "invisible"
-  ) {
+  if (elementStyle.getPropertyValue("visibility") === "hidden") {
     handleContent(STYLES_ADVICE.VISIBILITY);
     openModal();
   }
 
-  if (
-    Object.keys(elementStyle).includes("tableLayout") &&
-    elementStyle.tableLayout !== "fixed"
-  ) {
+  if (elementStyle.getPropertyValue("table-layout") === "auto") {
     handleContent(STYLES_ADVICE.TABLE_LAYOUT);
     openModal();
   }
 
   if (
-    Object.keys(elementStyle).includes("animation") &&
-    elementStyle.display !== "fixed" &&
-    elementStyle.display !== "absolute"
+    elementStyle.getPropertyValue("animation-name") !== "none" &&
+    (elementStyle.getPropertyValue("display") !== "absolute" ||
+      elementStyle.getPropertyValue("display") !== "fixed")
   ) {
     handleContent(STYLES_ADVICE.ANIMATION_DISPLAY);
     openModal();

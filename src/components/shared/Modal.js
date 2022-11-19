@@ -34,7 +34,7 @@ export default function Modal({ isModalOpen, handleClose, header, content }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          width: "320px",
+          minWidth: "320px",
           minHeight: "120px",
           backgroundColor: GREY_50,
           borderRadius: "15px",
