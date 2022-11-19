@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import Modal from "../shared/Modal";
 import StyleScanModal from "./StyleScanModal";
 
+import { useModal } from "../../hooks/useModal";
 import getStylesWithoutDefaults from "../../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../../utils/checkStyleOptimizationPoint";
 import convertToComponent from "../../utils/convertToComponent";
@@ -13,15 +13,16 @@ import convertToComponent from "../../utils/convertToComponent";
 import { STYLES_ADVICE } from "../../constants/ui";
 
 export default function WebFrame({ htmlString, handleChange }) {
-  const [isStyleInfoModalOpen, setIsStyleInfoModalOpen] = useState(false);
-  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
+  const [isStyleScanModalOpen, setIsStyleScanModalOpen] = useState(false);
   const [modalCoordinate, setModalCoordinate] = useState({ x: 0, y: 0 });
   const [elementInfo, setElementInfo] = useState({
     tagName: "",
     className: "",
     customStyles: {},
   });
-  const [adviceContent, setAdviceContent] = useState("");
+  const [StyleAdviceModal, openModal, handleContent] = useModal(
+    STYLES_ADVICE.HEADER,
+  );
 
   useEffect(() => {
     if (!htmlString) return;
@@ -31,31 +32,32 @@ export default function WebFrame({ htmlString, handleChange }) {
 
       if (targetElement.classList.contains("highlight")) return;
 
-      setIsStyleInfoModalOpen(true);
+      setIsStyleScanModalOpen(true);
       setModalCoordinate({ x: e.x + 100, y: e.y - 100 });
       setElementInfo({
         tagName: targetElement.tagName.toLowerCase(),
         className: targetElement.className,
         customStyles: getStylesWithoutDefaults(targetElement),
       });
+
       targetElement.classList.add("highlight");
     };
 
     const removeHighlightOnMouseout = (e) => {
-      setIsStyleInfoModalOpen(false);
+      setIsStyleScanModalOpen(false);
       e.target.classList.remove("highlight");
     };
 
     const getElementInformation = (e) => {
       const targetElement = e.target;
 
-      setIsStyleInfoModalOpen(false);
+      setIsStyleScanModalOpen(false);
       targetElement.classList.remove("highlight");
 
       checkStyleOptimizationPoint(
         getStylesWithoutDefaults(targetElement),
-        setIsAdviceModalOpen,
-        setAdviceContent,
+        openModal,
+        handleContent,
       );
 
       handleChange(convertToComponent(targetElement));
@@ -81,16 +83,11 @@ export default function WebFrame({ htmlString, handleChange }) {
         css={{ flex: 7, width: "100%", height: "100%", overflow: "auto" }}
       />
       <StyleScanModal
-        isModalOpen={isStyleInfoModalOpen}
+        isModalOpen={isStyleScanModalOpen}
         modalCoordinate={modalCoordinate}
         elementInfo={elementInfo}
       />
-      <Modal
-        isModalOpen={isAdviceModalOpen}
-        handleClose={() => setIsAdviceModalOpen(false)}
-        header={STYLES_ADVICE.HEADER}
-        content={adviceContent}
-      />
+      <StyleAdviceModal />
     </>
   );
 }

@@ -3,22 +3,22 @@ import { STYLES_ADVICE } from "../constants/ui";
 export default function checkStyleOptimizationPoint(
   elementStyle,
   openModal,
-  handleMessage,
+  handleContent,
 ) {
   if (
     Object.keys(elementStyle).includes("visibility") &&
     elementStyle.visibility === "invisible"
   ) {
-    handleMessage(STYLES_ADVICE.VISIBILITY);
-    openModal(true);
+    handleContent(STYLES_ADVICE.VISIBILITY);
+    openModal();
   }
 
   if (
     Object.keys(elementStyle).includes("tableLayout") &&
     elementStyle.tableLayout !== "fixed"
   ) {
-    handleMessage(STYLES_ADVICE.TABLE_LAYOUT);
-    openModal(true);
+    handleContent(STYLES_ADVICE.TABLE_LAYOUT);
+    openModal();
   }
 
   if (
@@ -26,7 +26,7 @@ export default function checkStyleOptimizationPoint(
     elementStyle.display !== "fixed" &&
     elementStyle.display !== "absolute"
   ) {
-    handleMessage(STYLES_ADVICE.ANIMATION_DISPLAY);
-    openModal(true);
+    handleContent(STYLES_ADVICE.ANIMATION_DISPLAY);
+    openModal();
   }
 }
