@@ -7,17 +7,19 @@ import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
 import Editor from "../shared/Editor";
-import Modal from "../shared/Modal";
 import FileOpenButton from "./FileOpenButton";
 
+import { useModal } from "../../hooks/useModal";
 import loadedFileCodeState from "../../recoil/loadedFileCode";
+
 import { BUTTON, CODE_AREA, MODAL_HEADER, SAVE_CODE } from "../../constants/ui";
 import { GREY_150 } from "../../constants/color";
 
 export default function LoadedFileCodeArea() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filePath, setFilePath] = useState("");
-  const [saveResult, setSaveResult] = useState("");
+  const [SaveResultModal, openModal, handleContent] = useModal(
+    MODAL_HEADER.SAVE_RESULT,
+  );
 
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
@@ -39,17 +41,16 @@ export default function LoadedFileCodeArea() {
     try {
       await fs.writeFile(filePath, loadedFileCode, (err) => {
         if (err) {
-          setIsModalOpen(true);
-          setSaveResult(SAVE_CODE.FAIL);
+          handleContent(SAVE_CODE.FAIL);
+          openModal();
           return;
         }
-
-        setIsModalOpen(true);
-        setSaveResult(SAVE_CODE.SUCCESS);
+        handleContent(SAVE_CODE.SUCCESS);
+        openModal();
       });
     } catch (e) {
-      setIsModalOpen(true);
-      setSaveResult(SAVE_CODE.SUCCESS);
+      handleContent(SAVE_CODE.FAIL);
+      openModal();
     }
   };
 
@@ -77,12 +78,7 @@ export default function LoadedFileCodeArea() {
         handleChange={handleCodeChange}
         width={(window.innerWidth * 0.5 - 36).toString() + "px"}
       />
-      <Modal
-        isModalOpen={isModalOpen}
-        handleClose={() => setIsModalOpen(false)}
-        header={MODAL_HEADER.SAVE_RESULT}
-        content={saveResult}
-      />
+      <SaveResultModal />
     </>
   );
 }
