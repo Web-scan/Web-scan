@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 
 import fs from "fs";
 import { useRecoilState } from "recoil";
@@ -10,19 +10,20 @@ import Editor from "../shared/Editor";
 import FileOpenButton from "./FileOpenButton";
 
 import { useModal } from "../../hooks/useModal";
+import localFilePathState from "../../recoil/localFilePath";
 import loadedFileCodeState from "../../recoil/loadedFileCode";
 
 import { BUTTON, CODE_AREA, MODAL_HEADER, SAVE_CODE } from "../../constants/ui";
 import { GREY_150 } from "../../constants/color";
 
 export default function LoadedFileCodeArea() {
-  const [filePath, setFilePath] = useState("");
+  const [filePath, setFilePath] = useRecoilState(localFilePathState);
+  const [loadedFileCode, setLoadedFileCode] =
+    useRecoilState(loadedFileCodeState);
+
   const [SaveResultModal, openModal, handleContent] = useModal(
     MODAL_HEADER.SAVE_RESULT,
   );
-
-  const [loadedFileCode, setLoadedFileCode] =
-    useRecoilState(loadedFileCodeState);
   const fileInput = useRef(null);
 
   const handleCodeChange = useCallback((code) => {

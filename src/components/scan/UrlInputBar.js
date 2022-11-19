@@ -24,16 +24,14 @@ export default function UrlInputBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateUrl(urlInputValue)) {
+    if (urlInputValue && !validateUrl(urlInputValue)) {
       alert(ERROR.INVALID_URL);
       return setUrlInputValue("");
     }
 
-    if (urlInputValue && validateUrl(urlInputValue)) {
-      setUrlState(urlInputValue);
-      resetScannedElementComponentCodeState();
-      resetLoadedFileCodeState();
-    }
+    setUrlState(urlInputValue);
+    resetScannedElementComponentCodeState();
+    resetLoadedFileCodeState();
   };
 
   return (
