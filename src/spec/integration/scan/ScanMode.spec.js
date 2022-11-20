@@ -2,9 +2,9 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import axios from "axios";
 import { HashRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import ScanMode from "../../components/scan/ScanMode";
+import ScanMode from "../../../components/scan/ScanMode";
 
-import sampleWebsiteHtml from "../__mocks__/sampleWebsiteHtml";
+import sampleWebsiteHtml from "../../__mocks__/sampleWebsiteHtml";
 
 jest.mock("axios");
 

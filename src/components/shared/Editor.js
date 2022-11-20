@@ -15,6 +15,7 @@ export default function Editor({ code, handleChange, width }) {
       width={width}
       height={height}
       onChange={handleChange}
+      className="editor"
     />
   );
 }
