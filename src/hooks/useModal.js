@@ -18,7 +18,7 @@ export function useModal(header) {
     return (
       <Modal
         isModalOpen={isModalOpen}
-        handleClose={() => setIsModalOpen(false)}
+        handleClick={() => setIsModalOpen(false)}
         header={header}
         content={content}
       />
