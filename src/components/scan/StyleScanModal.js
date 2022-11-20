@@ -41,6 +41,7 @@ export default function StyleScanModal({
           borderRadius: "18px",
           zIndex: 999,
         }}
+        data-testid="style-scan-modal"
       >
         <div
           css={{ paddingBottom: "10px", borderBottom: `1px solid ${GREY_50}` }}
