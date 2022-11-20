@@ -46,6 +46,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  marginRight: "0px",
   width: "80px",
   height: "30px",
   borderRadius: "10px",
