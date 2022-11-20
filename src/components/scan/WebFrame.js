@@ -54,11 +54,7 @@ export default function WebFrame({ htmlString, handleChange }) {
       setIsStyleScanModalOpen(false);
       targetElement.classList.remove("highlight");
 
-      checkStyleOptimizationPoint(
-        window.getComputedStyle(targetElement),
-        openModal,
-        handleContent,
-      );
+      checkStyleOptimizationPoint(targetElement, openModal, handleContent);
 
       handleChange(convertToComponent(targetElement));
     };

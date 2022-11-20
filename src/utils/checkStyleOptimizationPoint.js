@@ -1,16 +1,21 @@
 import { STYLES_ADVICE } from "../constants/ui";
 
 export default function checkStyleOptimizationPoint(
-  elementStyle,
+  targetElement,
   openModal,
   handleContent,
 ) {
+  const elementStyle = window.getComputedStyle(targetElement);
+
   if (elementStyle.getPropertyValue("visibility") === "hidden") {
     handleContent(STYLES_ADVICE.VISIBILITY);
     openModal();
   }
 
-  if (elementStyle.getPropertyValue("table-layout") === "auto") {
+  if (
+    targetElement.tagName === "TABLE" &&
+    elementStyle.getPropertyValue("table-layout") === "auto"
+  ) {
     handleContent(STYLES_ADVICE.TABLE_LAYOUT);
     openModal();
   }
