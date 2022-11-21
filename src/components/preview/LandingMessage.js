@@ -12,7 +12,7 @@ export default function LandingMessage() {
         color: GREY_150,
       }}
     >
-      {LANDING_MESSAGE.SCAN}
+      {LANDING_MESSAGE.PREVIEW}
     </div>
   );
 }
