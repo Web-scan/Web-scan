@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { useCallback, useRef } from "react";
-
 import fs from "fs";
+import { useNavigate } from "react-router-dom";
+
 import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
@@ -25,6 +26,7 @@ export default function LoadedFileCodeArea() {
     MODAL_HEADER.SAVE_RESULT,
   );
   const fileInput = useRef(null);
+  const navigate = useNavigate();
 
   const handleCodeChange = useCallback((code) => {
     setLoadedFileCode(code);
@@ -71,7 +73,15 @@ export default function LoadedFileCodeArea() {
             handleChange={handleFileChange}
             handleClick={() => fileInput.current.click()}
           />
-          <Button text={BUTTON.SAVE} handleClick={handleSaveClick} />
+          <Button
+            text={BUTTON.SAVE}
+            handleClick={handleSaveClick}
+            marginRight="16px"
+          />
+          <Button
+            text={BUTTON.PREVIEW}
+            handleClick={() => navigate("/preview")}
+          />
         </div>
       </div>
       <Editor

@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import { Suspense, lazy, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { TfiFiles } from "react-icons/tfi";
 
 import { useRecoilValue } from "recoil";
 
@@ -12,9 +10,9 @@ import ContentBox from "../components/layout/ContentBox";
 import LandingMessage from "../components/scan/LandingMessage";
 import UrlInputBar from "../components/scan/UrlInputBar";
 import Logo from "../components/shared/Logo";
+import FileIcon from "../components/shared/FileIcon";
 
 import websiteUrlState from "../recoil/websiteUrl";
-import { GREY_150 } from "../constants/color";
 
 const lazyWithPreload = (importFunction) => {
   const Component = lazy(importFunction);
@@ -26,7 +24,6 @@ const ScanMode = lazyWithPreload(() => import("../components/scan/ScanMode"));
 
 export default function Scan() {
   const websiteUrl = useRecoilValue(websiteUrlState);
-  const navigate = useNavigate();
 
   useEffect(() => {
     ScanMode.preload();
@@ -37,11 +34,7 @@ export default function Scan() {
       <Header>
         <Logo />
         <UrlInputBar />
-        <TfiFiles
-          size="42"
-          color={GREY_150}
-          onClick={() => navigate("/edit")}
-        />
+        <FileIcon />
       </Header>
       <ContentBox>
         {!websiteUrl && <LandingMessage />}
