@@ -18,6 +18,7 @@ module.exports = {
   },
   plugins: ["react", "html", "prettier", "@emotion"],
   rules: {
+    "no-invalid-this": "off",
     "spaced-comment": "off",
     "require-jsdoc": "off",
     "react/react-in-jsx-scope": "off",
