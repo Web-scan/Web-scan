@@ -76,5 +76,10 @@
       "prettier --write .",
       "eslint --fix ."
     ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ]
   }
 }

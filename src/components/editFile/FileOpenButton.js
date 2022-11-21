@@ -16,6 +16,7 @@ function FileOpenButton({ handleChange, handleClick }, ref) {
         css={{
           display: "none",
         }}
+        data-testid="file-input"
       />
       <Button text={BUTTON.OPEN} handleClick={handleClick} marginRight="16px" />
     </>
