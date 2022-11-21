@@ -25,7 +25,11 @@ export default function Preview() {
       <ContentBox>
         {!localhostUrl && <LandingMessage />}
         {localhostUrl && (
-          <iframe src={localhostUrl} css={{ width: "100%", height: "100%" }} />
+          <iframe
+            src={localhostUrl}
+            css={{ width: "100%", height: "100%" }}
+            data-testid="web-frame"
+          />
         )}
       </ContentBox>
     </>
