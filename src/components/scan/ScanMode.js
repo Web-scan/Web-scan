@@ -10,6 +10,7 @@ import SideEditorArea from "./SideEditorArea";
 import WebFrame from "./WebFrame";
 
 import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
+import manipulateDom from "../../utils/manipulateDom";
 import { ERROR } from "../../constants/ui";
 
 export default function ScanMode({ websiteUrl }) {
@@ -23,7 +24,14 @@ export default function ScanMode({ websiteUrl }) {
     const getHtml = async () => {
       try {
         const { data } = await axios.get(websiteUrl);
-        setHtmlString(data);
+        const sourceDomain = websiteUrl
+          .slice(`https://`.length)
+          .split("/")
+          .shift();
+
+        const manipulatedHtml = manipulateDom(data, sourceDomain);
+
+        setHtmlString(manipulatedHtml);
       } catch (e) {
         alert(ERROR.OPEN_WEBSITE);
       }
