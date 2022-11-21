@@ -1,15 +1,21 @@
 import fs from "fs";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
-import { HashRouter } from "react-router-dom";
+import { HashRouter, useLocation } from "react-router-dom";
 import LoadedFileCodeArea from "../../../components/editFile/LoadedFileCodeArea";
 
 jest.mock("fs");
+
+const PathLocation = () => {
+  const location = useLocation();
+  return <div>{location.pathname}</div>;
+};
 
 beforeEach(() => {
   render(
     <RecoilRoot>
       <LoadedFileCodeArea />
+      <PathLocation />
     </RecoilRoot>,
     { wrapper: HashRouter },
   );
@@ -37,5 +43,12 @@ describe("<LoadedFileCodeArea />", () => {
     fireEvent.click(saveButton);
 
     expect(fs.writeFile).toHaveBeenCalled();
+  });
+
+  it("Move to a preview page when preview button is clicked", () => {
+    const previewButton = screen.getByRole("button", { name: "Preview" });
+    fireEvent.click(previewButton);
+
+    expect(screen.getByText("/preview")).toBeInTheDocument();
   });
 });

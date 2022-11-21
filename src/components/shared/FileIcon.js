@@ -7,6 +7,11 @@ export default function FileIcon() {
   const navigate = useNavigate();
 
   return (
-    <TfiFiles size="42" color={GREY_150} onClick={() => navigate("/edit")} />
+    <TfiFiles
+      size="42"
+      color={GREY_150}
+      onClick={() => navigate("/edit")}
+      data-testid="file-icon"
+    />
   );
 }
