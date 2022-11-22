@@ -19,11 +19,10 @@
     "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
-    "recoil": "^0.7.6",
-    "web-vitals": "^2.1.4"
+    "recoil": "^0.7.6"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "GENERATE_SOURCEMAP=false craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
