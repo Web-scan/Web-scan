@@ -7,7 +7,6 @@ describe("<UrlInput />", () => {
     const handleChange = jest.fn();
     const handleSubmit = jest.fn();
     const placeholder = "test placeholder";
-
     render(
       <UrlInput
         value={value}
@@ -16,8 +15,8 @@ describe("<UrlInput />", () => {
         placeholder={placeholder}
       />,
     );
-
     const inputBar = screen.getByRole("textbox");
+
     expect(inputBar).toHaveAttribute("placeholder", placeholder);
     expect(inputBar.value).toBe(value);
 

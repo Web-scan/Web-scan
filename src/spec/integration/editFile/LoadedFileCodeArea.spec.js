@@ -1,7 +1,9 @@
 import fs from "fs";
+
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RecoilRoot } from "recoil";
 import { HashRouter, useLocation } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+
 import LoadedFileCodeArea from "../../../components/editFile/LoadedFileCodeArea";
 
 jest.mock("fs");
@@ -22,14 +24,14 @@ beforeEach(() => {
 });
 
 describe("<LoadedFileCodeArea />", () => {
-  it("Display a file code when a file is opened and succeed to save when save button is clicked", async () => {
+  it("Display a file code when a file is opened and call a fs.writeFile when save button is clicked", async () => {
     const fileInput = screen.getByTestId("file-input");
     const openButton = screen.getByRole("button", { name: "Open" });
     const saveButton = screen.getByRole("button", { name: "Save" });
 
     const mockFile = new File(["test"], "test.js", { path: "test/path" });
     fs.readFileSync.mockReturnValue("test code");
-    fs.writeFile.mockImplementation(() => {});
+    fs.writeFile = jest.fn();
 
     fireEvent.click(openButton);
     fireEvent.change(fileInput, {
@@ -41,7 +43,6 @@ describe("<LoadedFileCodeArea />", () => {
     expect(await screen.findByText("test code")).toBeInTheDocument();
 
     fireEvent.click(saveButton);
-
     expect(fs.writeFile).toHaveBeenCalled();
   });
 
