@@ -26,7 +26,7 @@ export default function UrlInputBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (urlInputValue && !validateUrl(urlInputValue)) {
+    if (!urlInputValue || !validateUrl(urlInputValue)) {
       alert(ERROR.INVALID_URL);
       return setUrlInputValue("");
     }

@@ -18,19 +18,19 @@ export default function manipulateDom(originalHtml, sourceDomain) {
 
   $(`div[class="inner_header"]`).first().css("top", "0px !important");
 
-  $(`link`).each(function (index, element) {
+  $(`link`).each(function () {
     if (this.attribs["href"]?.startsWith("https://")) return;
 
     $(this).attr("href", `https://${sourceDomain}${this.attribs["href"]}`);
   });
 
-  $(`script`).each(function (index, element) {
+  $(`script`).each(function () {
     if (this.attribs["src"]?.startsWith("https://")) return;
 
     $(this).attr("src", `https://${sourceDomain}${this.attribs["src"]}`);
   });
 
-  $(`img`).each(function (index, element) {
+  $(`img`).each(function () {
     if (this.attribs["src"]?.startsWith("https://")) return;
 
     if (this.attribs["src"]?.startsWith("//")) {

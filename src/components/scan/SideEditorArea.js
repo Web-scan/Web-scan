@@ -3,8 +3,8 @@
 import { keyframes } from "@emotion/react";
 import PropTypes from "prop-types";
 
-import Editor from "../shared/Editor";
 import Button from "../shared/Button";
+import Editor from "../shared/Editor";
 
 import { BUTTON, COPY } from "../../constants/ui";
 import { GREY_100, GREY_150 } from "../../constants/color";
@@ -52,7 +52,7 @@ export default function SideEditorArea({ code, handleChange }) {
 }
 
 SideEditorArea.propTypes = {
-  code: PropTypes.string,
+  code: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
 };
 

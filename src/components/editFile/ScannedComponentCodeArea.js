@@ -19,7 +19,7 @@ export default function ScannedComponentCodeArea() {
 
   return (
     <>
-      <div css={{ ...textStyle, height: "40px" }}>
+      <div css={{ height: "40px", fontSize: "16px", color: GREY_150 }}>
         {CODE_AREA.SCANNED_ELEMENT_COMPONENT_CODE}
       </div>
       <Editor
@@ -30,8 +30,3 @@ export default function ScannedComponentCodeArea() {
     </>
   );
 }
-
-const textStyle = {
-  fontSize: "16px",
-  color: GREY_150,
-};

@@ -21,10 +21,10 @@ export default function StyleScanModal({
   modalCoordinate,
   elementInfo,
 }) {
+  if (!isModalOpen) return null;
+
   const { x, y } = modalCoordinate;
   const { tagName, className, customStyles } = elementInfo;
-
-  if (!isModalOpen) return null;
 
   return (
     <ModalPortal>
@@ -37,8 +37,8 @@ export default function StyleScanModal({
           flexDirection: "column",
           padding: "16px",
           width: "300px",
-          backgroundColor: DARK_NAVY_50,
           borderRadius: "18px",
+          backgroundColor: DARK_NAVY_50,
           zIndex: 999,
         }}
         data-testid="style-scan-modal"
@@ -73,7 +73,7 @@ export default function StyleScanModal({
 }
 
 StyleScanModal.propTypes = {
-  modalCoordinate: PropTypes.object.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
+  modalCoordinate: PropTypes.object.isRequired,
   elementInfo: PropTypes.object.isRequired,
 };

@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Modal from "../components/shared/Modal";
 
 export function useModal(header) {

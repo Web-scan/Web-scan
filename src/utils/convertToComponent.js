@@ -21,13 +21,14 @@ function setInLineStyles(element) {
   }
 }
 
-function setClassName(element) {
+function reapplyClassName(element) {
   element.childNodes.forEach(function (childElement) {
-    setClassName(childElement);
+    reapplyClassName(childElement);
   });
 
   if (element.tagName) {
     const targetElementClassName = classNameList.shift();
+
     if (targetElementClassName) {
       element.className = targetElementClassName;
     }
@@ -51,7 +52,7 @@ export default function convertToComponent(element) {
   const formattedJsxArray = jsx.split("\n").map((code) => "    " + code + "\n");
   formattedJsxArray.pop();
 
-  setClassName(element);
+  reapplyClassName(element);
 
   return `const Component = () => {\n  return (\n${formattedJsxArray.join(
     "",

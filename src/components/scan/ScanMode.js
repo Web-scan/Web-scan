@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-import { useCallback, useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-import SideEditorArea from "./SideEditorArea";
 import WebFrame from "./WebFrame";
+import SideEditorArea from "./SideEditorArea";
 
 import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
 import manipulateDom from "../../utils/manipulateDom";
@@ -28,7 +28,6 @@ export default function ScanMode({ websiteUrl }) {
           .slice(`https://`.length)
           .split("/")
           .shift();
-
         const manipulatedHtml = manipulateDom(data, sourceDomain);
 
         setHtmlString(manipulatedHtml);
