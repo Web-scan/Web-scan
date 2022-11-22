@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { useCallback, useRef } from "react";
+
 import fs from "fs";
 import { useNavigate } from "react-router-dom";
-
 import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
@@ -34,10 +34,10 @@ export default function LoadedFileCodeArea() {
 
   const handleFileChange = (e) => {
     const filePath = e.target.files[0].path;
-    const data = fs.readFileSync(filePath, "utf8");
+    const fileCode = fs.readFileSync(filePath, "utf8");
 
     setFilePath(filePath);
-    handleCodeChange(data);
+    handleCodeChange(fileCode);
   };
 
   const handleSaveClick = async () => {
@@ -48,6 +48,7 @@ export default function LoadedFileCodeArea() {
           openModal();
           return;
         }
+
         handleContent(SAVE_CODE.SUCCESS);
         openModal();
       });
@@ -66,7 +67,9 @@ export default function LoadedFileCodeArea() {
           height: "40px",
         }}
       >
-        <div css={textStyle}>{CODE_AREA.LOADED_FILE_CODE}</div>
+        <div css={{ fontSize: "16px", color: GREY_150 }}>
+          {CODE_AREA.LOADED_FILE_CODE}
+        </div>
         <div>
           <FileOpenButton
             ref={fileInput}
@@ -93,8 +96,3 @@ export default function LoadedFileCodeArea() {
     </>
   );
 }
-
-const textStyle = {
-  fontSize: "16px",
-  color: GREY_150,
-};

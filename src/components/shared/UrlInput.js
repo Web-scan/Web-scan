@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import PropTypes from "prop-types";
-
 import { GREY_150, WHITE } from "../../constants/color";
 
 export default function UrlInput({
@@ -22,10 +21,10 @@ export default function UrlInput({
           padding: "14px 20px",
           width: "800px",
           height: "100%",
-          backgroundColor: WHITE,
           borderRadius: "40px",
           fontSize: "16px",
           color: GREY_150,
+          backgroundColor: WHITE,
         }}
       />
     </form>

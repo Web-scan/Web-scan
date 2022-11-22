@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
+import { LOADING_MESSAGE } from "../../constants/ui";
+
 export default function Loading() {
   return (
     <div
@@ -8,9 +10,10 @@ export default function Loading() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        fontSize: "26px",
       }}
     >
-      Loading ...
+      {LOADING_MESSAGE}
     </div>
   );
 }

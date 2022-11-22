@@ -28,12 +28,11 @@ export default function Modal({ isModalOpen, handleClick, header, content }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          zIndex: 99,
-          padding: "14px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          padding: "14px",
           minWidth: "320px",
           minHeight: "120px",
           backgroundColor: GREY_50,
@@ -41,6 +40,7 @@ export default function Modal({ isModalOpen, handleClick, header, content }) {
           fontSize: "14px",
           wordBreak: "break-all",
           animation: `${slide} 1s 1`,
+          zIndex: 999,
         }}
       >
         <div

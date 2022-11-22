@@ -3,12 +3,12 @@
 import { useRecoilValue } from "recoil";
 
 import Header from "../components/layout/Header";
-import ContentBox from "../components/layout/ContentBox";
-
 import Logo from "../components/shared/Logo";
-import FileIcon from "../components/shared/FileIcon";
-import LandingMessage from "../components/preview/LandingMessage";
 import UrlInputBar from "../components/preview/UrlInputBar";
+import FileIcon from "../components/shared/FileIcon";
+
+import ContentBox from "../components/layout/ContentBox";
+import LandingMessage from "../components/preview/LandingMessage";
 
 import localhostUrlState from "../recoil/localhostUrl";
 

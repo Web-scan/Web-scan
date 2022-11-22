@@ -10,7 +10,7 @@ import getStylesWithoutDefaults from "../../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../../utils/checkStyleOptimizationPoint";
 import convertToComponent from "../../utils/convertToComponent";
 
-import { STYLES_ADVICE } from "../../constants/ui";
+import { MODAL_HEADER } from "../../constants/ui";
 
 export default function WebFrame({ htmlString, handleChange }) {
   const [isStyleScanModalOpen, setIsStyleScanModalOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function WebFrame({ htmlString, handleChange }) {
     customStyles: {},
   });
   const [StyleAdviceModal, openModal, handleContent] = useModal(
-    STYLES_ADVICE.HEADER,
+    MODAL_HEADER.STYLES_ADVICE,
   );
 
   useEffect(() => {

@@ -1,16 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { Suspense, lazy, useEffect } from "react";
-
 import { useRecoilValue } from "recoil";
 
 import Header from "../components/layout/Header";
-import ContentBox from "../components/layout/ContentBox";
-
-import LandingMessage from "../components/scan/LandingMessage";
-import UrlInputBar from "../components/scan/UrlInputBar";
 import Logo from "../components/shared/Logo";
+import UrlInputBar from "../components/scan/UrlInputBar";
 import FileIcon from "../components/shared/FileIcon";
+
+import ContentBox from "../components/layout/ContentBox";
+import LandingMessage from "../components/scan/LandingMessage";
 
 import websiteUrlState from "../recoil/websiteUrl";
 
@@ -19,7 +18,6 @@ const lazyWithPreload = (importFunction) => {
   Component.preload = importFunction;
   return Component;
 };
-
 const ScanMode = lazyWithPreload(() => import("../components/scan/ScanMode"));
 
 export default function Scan() {

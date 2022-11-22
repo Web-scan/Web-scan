@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import Header from "../components/layout/Header";
-import ContentBox from "../components/layout/ContentBox";
+import Logo from "../components/shared/Logo";
 
+import ContentBox from "../components/layout/ContentBox";
 import ScannedComponentCodeArea from "../components/editFile/ScannedComponentCodeArea";
 import LoadedFileCodeArea from "../components/editFile/LoadedFileCodeArea";
-import Logo from "../components/shared/Logo";
 
 import { GREY_50 } from "../constants/color";
 

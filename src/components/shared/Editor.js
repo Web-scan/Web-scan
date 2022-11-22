@@ -4,24 +4,22 @@ import { atomone } from "@uiw/codemirror-theme-atomone";
 
 import PropTypes from "prop-types";
 
-const height = (window.innerHeight - 168).toString() + "px";
-
 export default function Editor({ code, handleChange, width }) {
   return (
     <CodeMirror
       value={code}
       theme={atomone}
       extensions={[javascript({ jsx: true })]}
-      width={width}
-      height={height}
       onChange={handleChange}
+      width={width}
+      height={(window.innerHeight - 168).toString() + "px"}
       className="editor"
     />
   );
 }
 
 Editor.propTypes = {
-  code: PropTypes.string,
-  handleChange: PropTypes.func,
+  code: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
 };
