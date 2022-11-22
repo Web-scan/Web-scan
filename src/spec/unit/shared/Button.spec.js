@@ -2,27 +2,22 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "../../../components/shared/Button";
 
 describe("<Button />", () => {
-  it("Display a correct text and work handleClick when button is clicked", () => {
+  it("Display a correct text and handleClick should work when button is clicked", () => {
     const text = "test text";
     const handleClick = jest.fn();
-
     render(<Button text={text} handleClick={handleClick} />);
-
     const button = screen.getByRole("button");
 
     expect(button).toHaveTextContent("test text");
 
     fireEvent.click(button);
-
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("Have specific styles consistent with default styles", () => {
+  it("Have specific styles consistent with default prop styles", () => {
     const text = "test text";
     const handleClick = jest.fn();
-
     render(<Button text={text} handleClick={handleClick} />);
-
     const button = screen.getByRole("button", { name: "test text" });
 
     expect(button).toHaveStyle("margin-right: 0px");
@@ -40,7 +35,6 @@ describe("<Button />", () => {
     const height = "100px";
     const borderRadius = "20px";
     const backgroundColor = "red";
-
     render(
       <Button
         text={text}
@@ -52,7 +46,6 @@ describe("<Button />", () => {
         backgroundColor={backgroundColor}
       />,
     );
-
     const button = screen.getByRole("button", { name: "test text" });
 
     expect(button).toHaveStyle("margin-right: 10px");

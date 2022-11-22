@@ -18,7 +18,6 @@ describe("<Logo />", () => {
     );
 
     const logo = screen.getByAltText("logo");
-
     fireEvent.click(logo);
 
     expect(screen.getByText("/")).toBeInTheDocument();

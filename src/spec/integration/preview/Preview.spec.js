@@ -3,7 +3,6 @@ import { HashRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
 import Preview from "../../../pages/Preview";
-
 import { HEADER_INPUT, LANDING_MESSAGE } from "../../../constants/ui";
 
 beforeEach(async () => {
@@ -25,9 +24,8 @@ describe("<Preview />", () => {
     expect(screen.getByText(LANDING_MESSAGE.PREVIEW)).toBeInTheDocument();
   });
 
-  it("Display web page when url is submitted", async () => {
+  it("Have a localhost url as a value of src attribute of the iframe when url is submitted", async () => {
     const urlInput = screen.getByPlaceholderText(HEADER_INPUT.LOCALHOST);
-
     fireEvent.change(urlInput, {
       target: { value: "https://sample-website-check-style.herokuapp.com/" },
     });

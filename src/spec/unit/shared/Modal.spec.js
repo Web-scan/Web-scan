@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 
 describe("<Modal />", () => {
-  it("Show nothing when isModalOpen is false", () => {
+  it("Do not display header or content of modal when isModalOpen is false", () => {
     const isModalOpen = false;
     const handleClick = jest.fn();
     const header = "test header";
@@ -23,9 +23,11 @@ describe("<Modal />", () => {
         content={content}
       />,
     );
+    const modalHeader = screen.queryByText("test header");
+    const modalContent = screen.queryByText("test content");
 
-    const modal = screen.queryByText("test header");
-    expect(modal).not.toBeInTheDocument();
+    expect(modalHeader).not.toBeInTheDocument();
+    expect(modalContent).not.toBeInTheDocument();
   });
 
   it("Show correct header and content consistent with props and handleClick should work when close button is clicked", () => {
@@ -33,7 +35,6 @@ describe("<Modal />", () => {
     const handleClick = jest.fn();
     const header = "test header";
     const content = "test content";
-
     render(
       <Modal
         isModalOpen={isModalOpen}
@@ -47,7 +48,6 @@ describe("<Modal />", () => {
     expect(screen.getByText(content)).toBeInTheDocument();
 
     const button = screen.getByRole("button", { name: "Close" });
-
     fireEvent.click(button);
 
     expect(handleClick).toHaveBeenCalledTimes(1);

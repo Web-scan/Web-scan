@@ -1,7 +1,9 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { HashRouter } from "react-router-dom";
+
 import { RecoilRoot } from "recoil";
 import axios from "axios";
+
 import Scan from "../../../pages/Scan";
 import sampleWebsiteHtml from "../../__mocks__/sampleWebsiteHtml";
 
@@ -11,6 +13,7 @@ jest.mock("axios");
 beforeAll(() => {
   const element = document.createElement("div");
   element.setAttribute("id", "modal");
+
   const body = document.querySelector("body");
   body.appendChild(element);
 });
@@ -41,26 +44,25 @@ describe("<Scan /> before website is loaded", () => {
     );
 
     const urlInput = screen.getByPlaceholderText("Enter a URL of the website");
-
     fireEvent.change(urlInput, {
       target: { value: "https://sample-website-check-style.herokuapp.com/" },
     });
     fireEvent.submit(urlInput);
 
     expect(await screen.findByText("Sample website")).toBeInTheDocument();
+    expect(dom.container.getElementsByClassName("editor").length).toBe(1);
   });
 
   it("Alert when invalid url is submitted", async () => {
-    jest.spyOn(window, "alert").mockImplementation(() => {});
+    global.alert = jest.fn();
 
     const urlInput = screen.getByPlaceholderText("Enter a URL of the website");
-
     fireEvent.change(urlInput, {
       target: { value: "mockUrl" },
     });
     fireEvent.submit(urlInput);
 
-    expect(window.alert).toBeCalledWith("Invalid URL. Please check your input");
+    expect(global.alert).toBeCalledWith("Invalid URL. Please check your input");
   });
 });
 
@@ -77,10 +79,10 @@ describe("<Scan /> after website is loaded", () => {
         </RecoilRoot>,
         { wrapper: HashRouter },
       );
+
       const urlInput = screen.getByPlaceholderText(
         "Enter a URL of the website",
       );
-
       fireEvent.change(urlInput, {
         target: { value: "https://sample-website-check-style.herokuapp.com/" },
       });
@@ -110,6 +112,7 @@ describe("<Scan /> after website is loaded", () => {
     fireEvent.mouseMove(heading);
 
     const styleScanModal = await screen.findByTestId("style-scan-modal");
+
     expect(styleScanModal).toBeInTheDocument();
   });
 
@@ -127,8 +130,8 @@ describe("<Scan /> after website is loaded", () => {
     };
 
     const button = screen.getByRole("button", { name: "Copy" });
-
     fireEvent.click(button);
-    expect(navigator.clipboard.writeText).toHaveBeenCalled();
+
+    expect(global.navigator.clipboard.writeText).toHaveBeenCalled();
   });
 });
