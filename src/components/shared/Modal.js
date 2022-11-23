@@ -15,7 +15,7 @@ function ModalPortal({ children }) {
   return ReactDOM.createPortal(children, element);
 }
 
-export default function Modal({ isModalOpen, handleClick, header, content }) {
+export default function Modal({ isModalOpen, onClick, header, content }) {
   if (!isModalOpen) {
     return null;
   }
@@ -57,7 +57,7 @@ export default function Modal({ isModalOpen, handleClick, header, content }) {
         <div css={{ marginBottom: "14px" }}>{content}</div>
         <Button
           text={BUTTON.CLOSE}
-          handleClick={handleClick}
+          onClick={onClick}
           width="60px"
           height="25px"
           backgroundColor={GREY_100}
@@ -69,7 +69,7 @@ export default function Modal({ isModalOpen, handleClick, header, content }) {
 
 Modal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
 };

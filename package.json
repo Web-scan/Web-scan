@@ -6,6 +6,7 @@
   "homepage": "./",
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.1",
+    "@craco/craco": "^7.0.0",
     "@emotion/react": "^11.10.5",
     "@uiw/codemirror-theme-atomone": "^4.13.2",
     "@uiw/react-codemirror": "^4.13.2",
@@ -51,7 +52,6 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0",
     "@emotion/eslint-plugin": "^11.10.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

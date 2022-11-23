@@ -18,66 +18,30 @@ beforeAll(() => {
   body.appendChild(element);
 });
 
-describe("<Scan /> before website is loaded", () => {
-  beforeEach(async () => {
-    await waitFor(() => {
-      dom = render(
-        <RecoilRoot>
-          <Scan />
-        </RecoilRoot>,
-        { wrapper: HashRouter },
-      );
+describe("<Scan />", () => {
+  describe("before website is loaded", () => {
+    beforeEach(async () => {
+      await waitFor(() => {
+        dom = render(
+          <RecoilRoot>
+            <Scan />
+          </RecoilRoot>,
+          { wrapper: HashRouter },
+        );
+      });
     });
-  });
 
-  it("Display landing message and do not display a editor", async () => {
-    expect(
-      screen.getByText("Let’s scan. Please enter a URL of the websites"),
-    ).toBeInTheDocument();
+    it("Display landing message and do not display a editor", async () => {
+      expect(
+        screen.getByText("Let’s scan. Please enter a URL of the websites"),
+      ).toBeInTheDocument();
 
-    expect(dom.container.getElementsByClassName("editor").length).toBe(0);
-  });
-
-  it("Display website and a editor when input is submitted", async () => {
-    axios.get.mockImplementation(() =>
-      Promise.resolve({ status: 200, data: sampleWebsiteHtml }),
-    );
-
-    const urlInput = screen.getByPlaceholderText("Enter a URL of the website");
-    fireEvent.change(urlInput, {
-      target: { value: "https://sample-website-check-style.herokuapp.com/" },
+      expect(dom.container.getElementsByClassName("editor").length).toBe(0);
     });
-    fireEvent.submit(urlInput);
 
-    expect(await screen.findByText("Sample website")).toBeInTheDocument();
-    expect(dom.container.getElementsByClassName("editor").length).toBe(1);
-  });
-
-  it("Alert when invalid url is submitted", async () => {
-    global.alert = jest.fn();
-
-    const urlInput = screen.getByPlaceholderText("Enter a URL of the website");
-    fireEvent.change(urlInput, {
-      target: { value: "mockUrl" },
-    });
-    fireEvent.submit(urlInput);
-
-    expect(global.alert).toBeCalledWith("Invalid URL. Please check your input");
-  });
-});
-
-describe("<Scan /> after website is loaded", () => {
-  beforeEach(async () => {
-    axios.get.mockImplementation(() =>
-      Promise.resolve({ status: 200, data: sampleWebsiteHtml }),
-    );
-
-    await waitFor(() => {
-      dom = render(
-        <RecoilRoot>
-          <Scan />
-        </RecoilRoot>,
-        { wrapper: HashRouter },
+    it("Display website and a editor when input is submitted", async () => {
+      axios.get.mockImplementation(() =>
+        Promise.resolve({ status: 200, data: sampleWebsiteHtml }),
       );
 
       const urlInput = screen.getByPlaceholderText(
@@ -87,51 +51,99 @@ describe("<Scan /> after website is loaded", () => {
         target: { value: "https://sample-website-check-style.herokuapp.com/" },
       });
       fireEvent.submit(urlInput);
+
+      expect(await screen.findByText("Sample website")).toBeInTheDocument();
+      expect(dom.container.getElementsByClassName("editor").length).toBe(1);
+    });
+
+    it("Alert when invalid url is submitted", async () => {
+      global.alert = jest.fn();
+
+      const urlInput = screen.getByPlaceholderText(
+        "Enter a URL of the website",
+      );
+      fireEvent.change(urlInput, {
+        target: { value: "mockUrl" },
+      });
+      fireEvent.submit(urlInput);
+
+      expect(global.alert).toBeCalledWith(
+        "Invalid URL. Please check your input",
+      );
     });
   });
 
-  it("There are no highlight on a element or style scan modal before mouse moves over a element", async () => {
-    const heading = await screen.findByText("Sample website");
-    const styleScanModal = await screen.queryByTestId("style-scan-modal");
+  describe("after website is loaded", () => {
+    beforeEach(async () => {
+      axios.get.mockImplementation(() =>
+        Promise.resolve({ status: 200, data: sampleWebsiteHtml }),
+      );
 
-    expect(heading.classList.contains("highlight")).toBe(false);
-    expect(styleScanModal).not.toBeInTheDocument();
-  });
+      await waitFor(() => {
+        dom = render(
+          <RecoilRoot>
+            <Scan />
+          </RecoilRoot>,
+          { wrapper: HashRouter },
+        );
 
-  it("Highlight the element when mouse is moving over a element", async () => {
-    const heading = await screen.findByText("Sample website");
-    fireEvent.mouseMove(heading);
-
-    await waitFor(() => {
-      expect(heading.classList.contains("highlight")).toBe(true);
+        const urlInput = screen.getByPlaceholderText(
+          "Enter a URL of the website",
+        );
+        fireEvent.change(urlInput, {
+          target: {
+            value: "https://sample-website-check-style.herokuapp.com/",
+          },
+        });
+        fireEvent.submit(urlInput);
+      });
     });
-  });
 
-  it("Display custom style information modal when mouse is moving over a element", async () => {
-    const heading = await screen.findByText("Sample website");
-    fireEvent.mouseMove(heading);
+    it("There are no highlight on a element or style scan modal before mouse moves over a element", async () => {
+      const heading = await screen.findByText("Sample website");
+      const styleScanModal = await screen.queryByTestId("style-scan-modal");
 
-    const styleScanModal = await screen.findByTestId("style-scan-modal");
+      expect(heading.classList.contains("highlight")).toBe(false);
+      expect(styleScanModal).not.toBeInTheDocument();
+    });
 
-    expect(styleScanModal).toBeInTheDocument();
-  });
+    it("Highlight the element when mouse is moving over a element", async () => {
+      const heading = await screen.findByText("Sample website");
+      fireEvent.mouseMove(heading);
 
-  it("Display component code in side editor when a element is clicked", async () => {
-    const heading = await screen.findByText("Sample website");
-    fireEvent.click(heading);
+      await waitFor(() => {
+        expect(heading.classList.contains("highlight")).toBe(true);
+      });
+    });
 
-    expect(await screen.findByText("const")).toBeInTheDocument();
-    expect(await screen.findByText("Component = () => {")).toBeInTheDocument();
-  });
+    it("Display custom style information modal when mouse is moving over a element", async () => {
+      const heading = await screen.findByText("Sample website");
+      fireEvent.mouseMove(heading);
 
-  it("Copy a code in clipboard when copy button is clicked", async () => {
-    global.navigator.clipboard = {
-      writeText: jest.fn(),
-    };
+      const styleScanModal = await screen.findByTestId("style-scan-modal");
 
-    const button = screen.getByRole("button", { name: "Copy" });
-    fireEvent.click(button);
+      expect(styleScanModal).toBeInTheDocument();
+    });
 
-    expect(global.navigator.clipboard.writeText).toHaveBeenCalled();
+    it("Display component code in side editor when a element is clicked", async () => {
+      const heading = await screen.findByText("Sample website");
+      fireEvent.click(heading);
+
+      expect(await screen.findByText("const")).toBeInTheDocument();
+      expect(
+        await screen.findByText("Component = () => {"),
+      ).toBeInTheDocument();
+    });
+
+    it("Copy a code in clipboard when copy button is clicked", async () => {
+      global.navigator.clipboard = {
+        writeText: jest.fn(),
+      };
+
+      const button = screen.getByRole("button", { name: "Copy" });
+      fireEvent.click(button);
+
+      expect(global.navigator.clipboard.writeText).toHaveBeenCalled();
+    });
   });
 });

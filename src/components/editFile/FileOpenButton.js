@@ -6,19 +6,19 @@ import PropTypes from "prop-types";
 import Button from "../shared/Button";
 import { BUTTON } from "../../constants/ui";
 
-function FileOpenButton({ handleChange, handleClick }, ref) {
+function FileOpenButton({ onChange, onClick }, ref) {
   return (
     <>
       <input
         type="file"
         ref={ref}
-        onChange={handleChange}
+        onChange={onChange}
         css={{
           display: "none",
         }}
         data-testid="file-input"
       />
-      <Button text={BUTTON.OPEN} handleClick={handleClick} marginRight="16px" />
+      <Button text={BUTTON.OPEN} onClick={onClick} marginRight="16px" />
     </>
   );
 }
@@ -26,6 +26,6 @@ function FileOpenButton({ handleChange, handleClick }, ref) {
 export default forwardRef(FileOpenButton);
 
 FileOpenButton.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

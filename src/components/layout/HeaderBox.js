@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { GREY_50, GREY_150 } from "../../constants/color";
 
-export default function Header({ children }) {
+export default function HeaderBox({ children }) {
   return (
     <div
       css={{
@@ -23,6 +23,6 @@ export default function Header({ children }) {
   );
 }
 
-Header.propTypes = {
+HeaderBox.propTypes = {
   children: PropTypes.node.isRequired,
 };

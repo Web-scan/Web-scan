@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 
 import fs from "fs";
 import { useNavigate } from "react-router-dom";
@@ -8,29 +8,31 @@ import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
 import Editor from "../shared/Editor";
+import Modal from "../shared/Modal";
+
+import CodeAreaWrapper from "./CodeAreaWrapper";
 import FileOpenButton from "./FileOpenButton";
 
-import { useModal } from "../../hooks/useModal";
-import localFilePathState from "../../recoil/localFilePath";
-import loadedFileCodeState from "../../recoil/loadedFileCode";
+import localFilePathState from "../../recoilStates/localFilePathState";
+import loadedFileCodeState from "../../recoilStates/loadedFileCodeState";
 
 import { BUTTON, CODE_AREA, MODAL_HEADER, SAVE_CODE } from "../../constants/ui";
-import { GREY_150 } from "../../constants/color";
+import { GREY_150, GREY_50 } from "../../constants/color";
 
 export default function LoadedFileCodeArea() {
   const [filePath, setFilePath] = useRecoilState(localFilePathState);
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
 
-  const [SaveResultModal, openModal, handleContent] = useModal(
-    MODAL_HEADER.SAVE_RESULT,
-  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saveResult, setSaveResult] = useState("");
+
   const fileInput = useRef(null);
   const navigate = useNavigate();
 
-  const handleCodeChange = useCallback((code) => {
+  const handleCodeChange = (code) => {
     setLoadedFileCode(code);
-  }, []);
+  };
 
   const handleFileChange = (e) => {
     const filePath = e.target.files[0].path;
@@ -42,24 +44,17 @@ export default function LoadedFileCodeArea() {
 
   const handleSaveClick = async () => {
     try {
-      await fs.writeFile(filePath, loadedFileCode, (err) => {
-        if (err) {
-          handleContent(SAVE_CODE.FAIL);
-          openModal();
-          return;
-        }
-
-        handleContent(SAVE_CODE.SUCCESS);
-        openModal();
-      });
+      await fs.promises.writeFile(filePath, loadedFileCode);
+      setSaveResult(SAVE_CODE.SUCCESS);
+      setIsModalOpen(true);
     } catch (e) {
-      handleContent(SAVE_CODE.FAIL);
-      openModal();
+      setSaveResult(SAVE_CODE.FAIL);
+      setIsModalOpen(true);
     }
   };
 
   return (
-    <>
+    <CodeAreaWrapper borderLeft={`1px solid ${GREY_50}`}>
       <div
         css={{
           display: "flex",
@@ -73,26 +68,28 @@ export default function LoadedFileCodeArea() {
         <div>
           <FileOpenButton
             ref={fileInput}
-            handleChange={handleFileChange}
-            handleClick={() => fileInput.current.click()}
+            onChange={handleFileChange}
+            onClick={() => fileInput.current.click()}
           />
           <Button
             text={BUTTON.SAVE}
-            handleClick={handleSaveClick}
+            onClick={handleSaveClick}
             marginRight="16px"
           />
-          <Button
-            text={BUTTON.PREVIEW}
-            handleClick={() => navigate("/preview")}
-          />
+          <Button text={BUTTON.PREVIEW} onClick={() => navigate("/preview")} />
         </div>
       </div>
       <Editor
         code={loadedFileCode}
-        handleChange={handleCodeChange}
-        width={(window.innerWidth * 0.5 - 36).toString() + "px"}
+        onChange={handleCodeChange}
+        width={window.innerWidth * 0.5 - 36}
       />
-      <SaveResultModal />
-    </>
+      <Modal
+        isModalOpen={isModalOpen}
+        onClick={() => setIsModalOpen(false)}
+        header={MODAL_HEADER.SAVE_RESULT}
+        content={saveResult}
+      />
+    </CodeAreaWrapper>
   );
 }

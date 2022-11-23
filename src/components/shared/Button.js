@@ -5,7 +5,7 @@ import { GREY_50, GREY_100, GREY_150 } from "../../constants/color";
 
 export default function Button({
   text,
-  handleClick,
+  onClick,
   marginRight,
   width,
   height,
@@ -14,7 +14,7 @@ export default function Button({
 }) {
   return (
     <button
-      onClick={handleClick}
+      onClick={onClick}
       css={{
         marginRight,
         width,
@@ -37,7 +37,7 @@ export default function Button({
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   marginRight: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,

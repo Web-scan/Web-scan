@@ -5,7 +5,7 @@ describe("<Button />", () => {
   it("Display a correct text and handleClick should work when button is clicked", () => {
     const text = "test text";
     const handleClick = jest.fn();
-    render(<Button text={text} handleClick={handleClick} />);
+    render(<Button text={text} onClick={handleClick} />);
     const button = screen.getByRole("button");
 
     expect(button).toHaveTextContent("test text");
@@ -17,7 +17,7 @@ describe("<Button />", () => {
   it("Have specific styles consistent with default prop styles", () => {
     const text = "test text";
     const handleClick = jest.fn();
-    render(<Button text={text} handleClick={handleClick} />);
+    render(<Button text={text} onClick={handleClick} />);
     const button = screen.getByRole("button", { name: "test text" });
 
     expect(button).toHaveStyle("margin-right: 0px");
@@ -28,22 +28,25 @@ describe("<Button />", () => {
   });
 
   it("Have specific styles consistent with props", () => {
-    const text = "test text";
+    const props = {
+      text: "test text",
+      marginRight: "10px",
+      width: "100px",
+      height: "100px",
+      borderRadius: "20px",
+      backgroundColor: "red",
+    };
     const handleClick = jest.fn();
-    const marginRight = "10px";
-    const width = "100px";
-    const height = "100px";
-    const borderRadius = "20px";
-    const backgroundColor = "red";
+
     render(
       <Button
-        text={text}
-        handleClick={handleClick}
-        marginRight={marginRight}
-        width={width}
-        height={height}
-        borderRadius={borderRadius}
-        backgroundColor={backgroundColor}
+        text={props.text}
+        onClick={handleClick}
+        marginRight={props.marginRight}
+        width={props.width}
+        height={props.height}
+        borderRadius={props.borderRadius}
+        backgroundColor={props.backgroundColor}
       />,
     );
     const button = screen.getByRole("button", { name: "test text" });

@@ -6,12 +6,14 @@ describe("<UrlInput />", () => {
     const value = "test text";
     const handleChange = jest.fn();
     const handleSubmit = jest.fn();
+    const handleFocus = jest.fn();
     const placeholder = "test placeholder";
     render(
       <UrlInput
         value={value}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onFocus={handleFocus}
         placeholder={placeholder}
       />,
     );

@@ -36,16 +36,16 @@ export default function SideEditorArea({ code, handleChange }) {
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
-          padding: "8px",
+          padding: "8px 4px",
         }}
       >
         <span css={{ color: GREY_150 }}>Component Code</span>
-        <Button text={BUTTON.COPY} handleClick={handleClick} />
+        <Button text={BUTTON.COPY} onClick={handleClick} />
       </div>
       <Editor
         code={code}
-        width={(window.innerWidth * 0.3 - 20).toString() + "px"}
-        handleChange={handleChange}
+        width={window.innerWidth * 0.3 - 10}
+        onChange={handleChange}
       />
     </div>
   );
