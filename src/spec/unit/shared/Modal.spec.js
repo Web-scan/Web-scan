@@ -35,6 +35,7 @@ describe("<Modal />", () => {
     const handleClick = jest.fn();
     const header = "test header";
     const content = "test content";
+
     render(
       <Modal
         isModalOpen={isModalOpen}

@@ -57,7 +57,7 @@ export default function Modal({ isModalOpen, handleClick, header, content }) {
         <div css={{ marginBottom: "14px" }}>{content}</div>
         <Button
           text={BUTTON.CLOSE}
-          handleClick={handleClick}
+          onClick={handleClick}
           width="60px"
           height="25px"
           backgroundColor={GREY_100}

@@ -10,8 +10,8 @@ describe("<UrlInput />", () => {
     render(
       <UrlInput
         value={value}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
         placeholder={placeholder}
       />,
     );

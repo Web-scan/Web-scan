@@ -1,7 +1,6 @@
 import { HashRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
-import Layout from "../src/components/layout";
 import GlobalStyle from "./styles/global";
 import Router from "./Router";
 
@@ -10,9 +9,7 @@ function App() {
     <HashRouter>
       <RecoilRoot>
         <GlobalStyle />
-        <Layout>
-          <Router />
-        </Layout>
+        <Router />
       </RecoilRoot>
     </HashRouter>
   );

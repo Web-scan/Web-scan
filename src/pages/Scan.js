@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
-import Header from "../components/layout/Header";
+import HeaderBox from "../components/layout/HeaderBox";
 import Logo from "../components/shared/Logo";
 import UrlInputBar from "../components/scan/UrlInputBar";
 import FileIcon from "../components/shared/FileIcon";
@@ -11,13 +11,9 @@ import FileIcon from "../components/shared/FileIcon";
 import ContentBox from "../components/layout/ContentBox";
 import LandingMessage from "../components/scan/LandingMessage";
 
-import websiteUrlState from "../recoil/websiteUrl";
+import websiteUrlState from "../recoilStates/websiteUrlState";
+import lazyWithPreload from "../utils/lazyWithPreload";
 
-const lazyWithPreload = (importFunction) => {
-  const Component = lazy(importFunction);
-  Component.preload = importFunction;
-  return Component;
-};
 const ScanMode = lazyWithPreload(() => import("../components/scan/ScanMode"));
 
 export default function Scan() {
@@ -29,17 +25,18 @@ export default function Scan() {
 
   return (
     <>
-      <Header>
+      <HeaderBox>
         <Logo />
         <UrlInputBar />
         <FileIcon />
-      </Header>
+      </HeaderBox>
       <ContentBox>
-        {!websiteUrl && <LandingMessage />}
-        {websiteUrl && (
+        {websiteUrl ? (
           <Suspense fallback={null}>
             <ScanMode websiteUrl={websiteUrl} />
           </Suspense>
+        ) : (
+          <LandingMessage />
         )}
       </ContentBox>
     </>

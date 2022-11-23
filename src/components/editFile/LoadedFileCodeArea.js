@@ -8,14 +8,15 @@ import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
 import Editor from "../shared/Editor";
+import CodeAreaWrapper from "./CodeAreaWrapper";
 import FileOpenButton from "./FileOpenButton";
 
 import { useModal } from "../../hooks/useModal";
-import localFilePathState from "../../recoil/localFilePath";
-import loadedFileCodeState from "../../recoil/loadedFileCode";
+import localFilePathState from "../../recoilStates/localFilePathState";
+import loadedFileCodeState from "../../recoilStates/loadedFileCodeState";
 
 import { BUTTON, CODE_AREA, MODAL_HEADER, SAVE_CODE } from "../../constants/ui";
-import { GREY_150 } from "../../constants/color";
+import { GREY_150, GREY_50 } from "../../constants/color";
 
 export default function LoadedFileCodeArea() {
   const [filePath, setFilePath] = useRecoilState(localFilePathState);
@@ -42,16 +43,9 @@ export default function LoadedFileCodeArea() {
 
   const handleSaveClick = async () => {
     try {
-      await fs.writeFile(filePath, loadedFileCode, (err) => {
-        if (err) {
-          handleContent(SAVE_CODE.FAIL);
-          openModal();
-          return;
-        }
-
-        handleContent(SAVE_CODE.SUCCESS);
-        openModal();
-      });
+      await fs.promises.writeFile(filePath, loadedFileCode);
+      handleContent(SAVE_CODE.SUCCESS);
+      openModal();
     } catch (e) {
       handleContent(SAVE_CODE.FAIL);
       openModal();
@@ -59,7 +53,7 @@ export default function LoadedFileCodeArea() {
   };
 
   return (
-    <>
+    <CodeAreaWrapper borderLeft={`1px solid ${GREY_50}`}>
       <div
         css={{
           display: "flex",
@@ -73,26 +67,23 @@ export default function LoadedFileCodeArea() {
         <div>
           <FileOpenButton
             ref={fileInput}
-            handleChange={handleFileChange}
-            handleClick={() => fileInput.current.click()}
+            onChange={handleFileChange}
+            onClick={() => fileInput.current.click()}
           />
           <Button
             text={BUTTON.SAVE}
-            handleClick={handleSaveClick}
+            onClick={handleSaveClick}
             marginRight="16px"
           />
-          <Button
-            text={BUTTON.PREVIEW}
-            handleClick={() => navigate("/preview")}
-          />
+          <Button text={BUTTON.PREVIEW} onClick={() => navigate("/preview")} />
         </div>
       </div>
       <Editor
         code={loadedFileCode}
-        handleChange={handleCodeChange}
-        width={(window.innerWidth * 0.5 - 36).toString() + "px"}
+        onChange={handleCodeChange}
+        width={window.innerWidth * 0.5 - 36}
       />
       <SaveResultModal />
-    </>
+    </CodeAreaWrapper>
   );
 }

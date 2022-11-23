@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import WebFrame from "./WebFrame";
 import SideEditorArea from "./SideEditorArea";
 
-import scannedElementComponentCodeState from "../../recoil/scannedElementComponentCode";
+import scannedElementComponentCodeState from "../../recoilStates/scannedElementComponentCodeState";
 import manipulateDom from "../../utils/manipulateDom";
 import { ERROR } from "../../constants/ui";
 
@@ -17,6 +17,10 @@ export default function ScanMode({ websiteUrl }) {
   const [htmlString, setHtmlString] = useState("");
   const [scannedElementComponentCode, setScannedElementComponentCode] =
     useRecoilState(scannedElementComponentCodeState);
+
+  const handleChange = useCallback((code) => {
+    setScannedElementComponentCode(code);
+  }, []);
 
   useEffect(() => {
     if (!websiteUrl) return;
@@ -38,10 +42,6 @@ export default function ScanMode({ websiteUrl }) {
 
     getHtml();
   }, [websiteUrl]);
-
-  const handleChange = useCallback((code) => {
-    setScannedElementComponentCode(code);
-  }, []);
 
   return (
     <>

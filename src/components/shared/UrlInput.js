@@ -3,20 +3,15 @@
 import PropTypes from "prop-types";
 import { GREY_150, WHITE } from "../../constants/color";
 
-export default function UrlInput({
-  value,
-  handleChange,
-  handleSubmit,
-  placeholder,
-}) {
+export default function UrlInput({ value, onChange, onSubmit, placeholder }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <input
         type="text"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => handleChange(e.target.value)}
-        onFocus={() => handleChange("")}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => onChange("")}
         css={{
           padding: "14px 20px",
           width: "800px",
@@ -33,7 +28,7 @@ export default function UrlInput({
 
 UrlInput.propTypes = {
   value: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
 };

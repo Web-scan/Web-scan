@@ -13,7 +13,7 @@ export function useModal(header) {
     setContent(content);
   };
 
-  const customModal = () => {
+  const CustomModal = () => {
     return (
       <Modal
         isModalOpen={isModalOpen}
@@ -24,5 +24,5 @@ export function useModal(header) {
     );
   };
 
-  return [customModal, openModal, handleContent];
+  return [CustomModal, openModal, handleContent];
 }
