@@ -25,8 +25,9 @@ export default function UrlInputBar() {
   return (
     <UrlInput
       value={urlInputValue}
-      onChange={setUrlInputValue}
+      onChange={(e) => setUrlInputValue(e.target.value)}
       onSubmit={handleSubmit}
+      onFocus={() => setUrlInputValue("")}
       placeholder={HEADER_INPUT.LOCALHOST}
     />
   );

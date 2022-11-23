@@ -25,11 +25,7 @@ export default function Scan() {
 
   return (
     <>
-      <HeaderBox>
-        <Logo />
-        <UrlInputBar />
-        <FileIcon />
-      </HeaderBox>
+      <Header />
       <ContentBox>
         {websiteUrl ? (
           <Suspense fallback={null}>
@@ -42,3 +38,13 @@ export default function Scan() {
     </>
   );
 }
+
+const Header = () => {
+  return (
+    <HeaderBox>
+      <Logo />
+      <UrlInputBar />
+      <FileIcon />
+    </HeaderBox>
+  );
+};

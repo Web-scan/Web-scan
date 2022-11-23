@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 
 import fs from "fs";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,11 @@ import { useRecoilState } from "recoil";
 
 import Button from "../shared/Button";
 import Editor from "../shared/Editor";
+import Modal from "../shared/Modal";
+
 import CodeAreaWrapper from "./CodeAreaWrapper";
 import FileOpenButton from "./FileOpenButton";
 
-import { useModal } from "../../hooks/useModal";
 import localFilePathState from "../../recoilStates/localFilePathState";
 import loadedFileCodeState from "../../recoilStates/loadedFileCodeState";
 
@@ -23,15 +24,15 @@ export default function LoadedFileCodeArea() {
   const [loadedFileCode, setLoadedFileCode] =
     useRecoilState(loadedFileCodeState);
 
-  const [SaveResultModal, openModal, handleContent] = useModal(
-    MODAL_HEADER.SAVE_RESULT,
-  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saveResult, setSaveResult] = useState("");
+
   const fileInput = useRef(null);
   const navigate = useNavigate();
 
-  const handleCodeChange = useCallback((code) => {
+  const handleCodeChange = (code) => {
     setLoadedFileCode(code);
-  }, []);
+  };
 
   const handleFileChange = (e) => {
     const filePath = e.target.files[0].path;
@@ -44,11 +45,11 @@ export default function LoadedFileCodeArea() {
   const handleSaveClick = async () => {
     try {
       await fs.promises.writeFile(filePath, loadedFileCode);
-      handleContent(SAVE_CODE.SUCCESS);
-      openModal();
+      setSaveResult(SAVE_CODE.SUCCESS);
+      setIsModalOpen(true);
     } catch (e) {
-      handleContent(SAVE_CODE.FAIL);
-      openModal();
+      setSaveResult(SAVE_CODE.FAIL);
+      setIsModalOpen(true);
     }
   };
 
@@ -83,7 +84,12 @@ export default function LoadedFileCodeArea() {
         onChange={handleCodeChange}
         width={window.innerWidth * 0.5 - 36}
       />
-      <SaveResultModal />
+      <Modal
+        isModalOpen={isModalOpen}
+        onClick={() => setIsModalOpen(false)}
+        header={MODAL_HEADER.SAVE_RESULT}
+        content={saveResult}
+      />
     </CodeAreaWrapper>
   );
 }

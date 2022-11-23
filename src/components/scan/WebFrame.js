@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
+import Modal from "../shared/Modal";
 import StyleScanModal from "./StyleScanModal";
 
-import { useModal } from "../../hooks/useModal";
 import getStylesWithoutDefaults from "../../utils/getStylesWithoutDefaults";
 import checkStyleOptimizationPoint from "../../utils/checkStyleOptimizationPoint";
 import convertToComponent from "../../utils/convertToComponent";
@@ -20,9 +20,12 @@ export default function WebFrame({ htmlString, handleChange }) {
     className: "",
     customStyles: {},
   });
-  const [StyleAdviceModal, openModal, handleContent] = useModal(
-    MODAL_HEADER.STYLES_ADVICE,
-  );
+  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
+  const [adviceContent, setAdviceContent] = useState("");
+
+  const handleAdviceModal = () => {
+    setIsAdviceModalOpen(true);
+  };
 
   useEffect(() => {
     if (!htmlString) return;
@@ -54,7 +57,11 @@ export default function WebFrame({ htmlString, handleChange }) {
       setIsStyleScanModalOpen(false);
       targetElement.classList.remove("highlight");
 
-      checkStyleOptimizationPoint(targetElement, openModal, handleContent);
+      checkStyleOptimizationPoint(
+        targetElement,
+        handleAdviceModal,
+        setAdviceContent,
+      );
 
       handleChange(convertToComponent(targetElement));
     };
@@ -83,7 +90,12 @@ export default function WebFrame({ htmlString, handleChange }) {
         modalCoordinate={modalCoordinate}
         elementInfo={elementInfo}
       />
-      <StyleAdviceModal />
+      <Modal
+        isModalOpen={isAdviceModalOpen}
+        onClick={() => setIsAdviceModalOpen(false)}
+        header={MODAL_HEADER.STYLES_ADVICE}
+        content={adviceContent}
+      />
     </>
   );
 }

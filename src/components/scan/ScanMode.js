@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import { useRecoilState } from "recoil";
 import axios from "axios";
@@ -17,10 +17,6 @@ export default function ScanMode({ websiteUrl }) {
   const [htmlString, setHtmlString] = useState("");
   const [scannedElementComponentCode, setScannedElementComponentCode] =
     useRecoilState(scannedElementComponentCodeState);
-
-  const handleChange = useCallback((code) => {
-    setScannedElementComponentCode(code);
-  }, []);
 
   useEffect(() => {
     if (!websiteUrl) return;
@@ -47,11 +43,11 @@ export default function ScanMode({ websiteUrl }) {
     <>
       <WebFrame
         htmlString={htmlString}
-        handleChange={setScannedElementComponentCode}
+        handleChange={(code) => setScannedElementComponentCode(code)}
       />
       <SideEditorArea
         code={scannedElementComponentCode}
-        handleChange={handleChange}
+        handleChange={(code) => setScannedElementComponentCode(code)}
       />
     </>
   );

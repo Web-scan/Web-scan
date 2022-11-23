@@ -17,11 +17,7 @@ export default function Preview() {
 
   return (
     <>
-      <HeaderBox>
-        <Logo />
-        <UrlInputBar />
-        <FileIcon />
-      </HeaderBox>
+      <Header />
       <ContentBox>
         {localhostUrl ? (
           <iframe
@@ -36,3 +32,13 @@ export default function Preview() {
     </>
   );
 }
+
+const Header = () => {
+  return (
+    <HeaderBox>
+      <Logo />
+      <UrlInputBar />
+      <FileIcon />
+    </HeaderBox>
+  );
+};

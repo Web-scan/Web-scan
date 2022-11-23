@@ -18,7 +18,7 @@ describe("<Modal />", () => {
     render(
       <Modal
         isModalOpen={isModalOpen}
-        handleClick={handleClick}
+        onClick={handleClick}
         header={header}
         content={content}
       />,
@@ -39,7 +39,7 @@ describe("<Modal />", () => {
     render(
       <Modal
         isModalOpen={isModalOpen}
-        handleClick={handleClick}
+        onClick={handleClick}
         header={header}
         content={content}
       />,
