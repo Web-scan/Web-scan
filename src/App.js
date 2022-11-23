@@ -1,7 +1,17 @@
+import { HashRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+
+import GlobalStyle from "./styles/global";
+import Router from "./Router";
+
 function App() {
   return (
-    <div>
-    </div>
+    <HashRouter>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Router />
+      </RecoilRoot>
+    </HashRouter>
   );
 }
 
