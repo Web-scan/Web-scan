@@ -118,21 +118,21 @@ Web scan은 웹사이트의 `element를 scan하여 컴포넌트 코드로 변환
 ## Element의 Custom styles을 어떻게 구할 것인가?
 - Style을 적용하는 방법에는 `Inline Style`, `Internal Style Sheet`, `External Style Sheet` 3가지 방식이 있습니다. [HTMLElement.style](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) 속성은 element의 Inline Style로 설정된 스타일 값만 알 수 있다는 문제점이 있었습니다. 따라서 `Internal Style Sheet`, `External Style Sheet`으로 작성된 경우에도, element의 style 정보를 알 수 있는 [Window.getComputedStyle](https://developer.mozilla.org/ko/docs/Web/API/Window/getComputedStyle) Web API를 사용하였습니다.
 - `Window.getComputedStyle`인자로 전달받은 요소의 모든 CSS 속성값을 담은 객체를 회신하는 데, 이 객체안에 담긴 CSS 속성의 개수가 약 600개로 너무 많아, 이 중에서 default인 값들은 제외하고, 실제 custom된 style값만 추출하기 위하여 아래 사항을 시도하였습니다.
-- 첫번째 시도 방법은, 사용자가 볼 수 없는 `iframe element를 생성`하여, target element와 같은 tag명을 가지는 element를 생성하여, iframe의 자식 요소로 지정하고, iframe.contentWindow.getComputedStyle로 style 정보가 담긴 객체를 얻습니다. 그 다음 target element의 getComputedStyle로 계산하여 반환받은 객체를 앞에서 계산한 객체의 값과 비교하여, custom style을 구하는 방법이었습니다. iframe을 사용하면 격리된 상태로 dummy element가 렌더링 되기 때문에, 더 정확한 custom style값을 얻을 수 있다는 장점이 있으나, 계산의 양이 많고, block 요소의 경우 width, height와 값은 일부 기본 스타일이 나열되는 문제점이 있었습니다.
-- 두번째 시도 방법은, `dummy element를 생성`하여, dummy element의 getComputedStyle로 계산한 객체와, target element의 getComputedStyle로 계산한 객체의 각 CSS 속성값을 비교하여, custom style을 구하는 방법이었습니다. 이 방법은 반환하는 객체의 속성값이 너무 많고, body의 스타일을 internal style sheet 또는 external style sheet로 설정하는 경우, 최종 반환하는 값에서 의도한 style 값이 누락되는 문제점이 있었습니다.
-- 세번째 시도 방법은, [unset](https://developer.mozilla.org/ko/docs/Web/CSS/unset)을 이용하였습니다. target element의 getComputedStyle로 style 정보를 담은 객체를 얻고, 객체내 각 css property key에 대하여, `element.style.setProperty(key, "unset")을 하기 전후의 styles.getPropertyValue(key) 값을 비교`하여 custom style을 구하였습니다. 상속값이 존재하는 경우, 초기값이 아닌 상속값이 적용된다는 문제점이 있지만, 계산의 시간 복잡도가 첫번째 방법보다 유리하고, 두번째 방법에서 있었던 기본 스타일의 나열되는 문제점이 개선되어, 이 로직으로 최종 적용하였습니다.
+  - 첫번째 시도 방법은, 사용자가 볼 수 없는 `iframe element를 생성`하여, target element와 같은 tag명을 가지는 element를 생성하여, iframe의 자식 요소로 지정하고, iframe.contentWindow.getComputedStyle로 style 정보가 담긴 객체를 얻습니다. 그 다음 target element의 getComputedStyle로 계산하여 반환받은 객체를 앞에서 계산한 객체의 값과 비교하여, custom style을 구하는 방법이었습니다. iframe을 사용하면 격리된 상태로 dummy element가 렌더링 되기 때문에, 더 정확한 custom style값을 얻을 수 있다는 장점이 있으나, 계산의 양이 많고, block 요소의 경우 width, height와 값은 일부 기본 스타일이 나열되는 문제점이 있었습니다.
+  - 두번째 시도 방법은, `dummy element를 생성`하여, dummy element의 getComputedStyle로 계산한 객체와, target element의 getComputedStyle로 계산한 객체의 각 CSS 속성값을 비교하여, custom style을 구하는 방법이었습니다. 이 방법은 반환하는 객체의 속성값이 너무 많고, body의 스타일을 internal style sheet 또는 external style sheet로 설정하는 경우, 최종 반환하는 값에서 의도한 style 값이 누락되는 문제점이 있었습니다.
+  - 세번째 시도 방법은, [unset](https://developer.mozilla.org/ko/docs/Web/CSS/unset)을 이용하였습니다. target element의 getComputedStyle로 style 정보를 담은 객체를 얻고, 객체내 각 css property key에 대하여, `element.style.setProperty(key, "unset")을 하기 전후의 styles.getPropertyValue(key) 값을 비교`하여 custom style을 구하였습니다. 상속값이 존재하는 경우, 초기값이 아닌 상속값이 적용된다는 문제점이 있지만, 계산의 시간 복잡도가 첫번째 방법보다 유리하고, 두번째 방법에서 있었던 기본 스타일의 나열되는 문제점이 개선되어, 이 로직으로 최종 적용하였습니다.
 
 <br/>
 
 ## Element의 HTML, CSS코드를 어떻게 함수형 컴포넌트 코드로 변환할 것인가?
-**1. 함수형 컴포넌트 코드로 변환하였을 때, `각 element마다 가져야할 그리고 삭제되어야하는 정보`를 설정하였습니다.**
-- 가져야 할 정보 : Tag name, innerText(존재할 경우), 해당 element의 계산된 Custom style이 style 속성에 객체 타입으로 적용(Inline CSS, JSX 문법에서는 style 속성에 Object 타입으로 넣어주며, 각 CSS property는 케밥 케이스가 아닌 카멜 케이스여야함)
-- 삭제되어야 할 정보 : 기존에 지정된 className
+- 함수형 컴포넌트 코드로 변환하였을 때, `각 element마다 가져야할 그리고 삭제되어야하는 정보`를 설정하였습니다
+  - 가져야 할 정보 : Tag name, innerText(존재할 경우), 해당 element의 계산된 Custom style이 style 속성에 객체 타입으로 적용(Inline CSS, JSX 문법에서는 style 속성에 Object 타입으로 넣어주며, 각 CSS property는 케밥 케이스가 아닌 카멜 케이스여야함)
+  - 삭제되어야 할 정보 : 기존에 지정된 className
 
-**2. 기존에 지정된 className을 삭제할 경우, Style Scan Modal에서 더이상 className이 보이지 않는 문제가 있어, `Queue 자료 구조`를 이용하여 해결하였습니다.**
-- 요소와 자식 요소들의 순회하면서, classNameList 배열에 이름을 저장하고, 컴포넌트 코드로 바꾼 후에 다시 요소들을 순회하면서, classNameList의 shift값을 className에 다시 지정하였습니다.
+- 기존에 지정된 className을 삭제할 경우, Style Scan Modal에서 더이상 className이 보이지 않는 문제가 있어, `Queue 자료 구조`를 이용하여 해결하였습니다
+  - 요소와 자식 요소들의 순회하면서, classNameList 배열에 이름을 저장하고, 컴포넌트 코드로 바꾼 후에 다시 요소들을 순회하면서, classNameList의 shift값을 className에 다시 지정하였습니다.
 
-**3. 변환해야하는 타겟 Element가 자식 노드를 가지고 있을 때, 해당 노드마다 Custom style 계산, className 삭제 등의 작업을 수행하기 위해, `깊이 우선 탐색(DFS) + 전위 순회(Pre-order traversal)을 적용`하였습니다.**
+- 변환해야하는 타겟 Element가 자식 노드를 가지고 있을 때, 해당 노드마다 Custom style 계산, className 삭제 등의 작업을 수행하기 위해, `깊이 우선 탐색(DFS) + 전위 순회(Pre-order traversal)을 적용`하였습니다
 
 <br/>
 
